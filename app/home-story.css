@@ -766,3 +766,81 @@
     font-size:clamp(19px,5vw,25px);
   }
 }
+
+/* iPhone-safe second headline: composited opacity + translate only.
+   Never animate blur, oversized font filters, clip widths or large backgrounds
+   while scrolling. The first video chapter and later sections are unchanged. */
+.story-second-stage::before{
+  transform:rotate(-8deg);
+}
+.story-second-grain{
+  mix-blend-mode:normal;
+  opacity:.075;
+}
+.story-second-echo{
+  opacity:.6;
+  transform:none;
+  filter:none;
+  will-change:auto;
+}
+.story-second-heading{
+  opacity:1;
+  transform:none;
+  filter:none;
+  will-change:auto;
+}
+.story-second-heading-first,
+.story-second-heading-final{
+  display:block;
+  opacity:1;
+  transform:translate3d(0,0,0);
+  filter:none;
+  -webkit-font-smoothing:antialiased;
+}
+.story-second-heading-final{
+  color:#f08851;
+  -webkit-text-stroke:0;
+}
+.story-second-heading-final::after{
+  display:none;
+  content:none;
+}
+.story-second-line .story-second-subcopy,
+.story-second-line .story-second-specs,
+.story-second-line .story-second-next{
+  transform:none;
+  opacity:1;
+  filter:none;
+}
+.story-second-line.story-motion-enabled .story-second-subcopy,
+.story-second-line.story-motion-enabled .story-second-specs,
+.story-second-line.story-motion-enabled .story-second-next{
+  opacity:0;
+  transform:translate3d(0,17px,0);
+  transition:opacity .46s ease,transform .5s cubic-bezier(.2,.7,.24,1);
+}
+.story-second-line.story-motion-enabled .story-second-subcopy.story-visible,
+.story-second-line.story-motion-enabled .story-second-specs.story-visible,
+.story-second-line.story-motion-enabled .story-second-next.story-visible{
+  opacity:1;
+  transform:translate3d(0,0,0);
+}
+/* Only the actual lines receive inline opacity/transform updates. */
+.story-second-line.story-motion-enabled .story-second-heading-first,
+.story-second-line.story-motion-enabled .story-second-heading-final{
+  will-change:opacity,transform;
+}
+@media(prefers-reduced-motion:reduce){
+  .story-second-line .story-second-heading-first,
+  .story-second-line .story-second-heading-final,
+  .story-second-line .story-second-echo,
+  .story-second-line .story-second-subcopy,
+  .story-second-line .story-second-specs,
+  .story-second-line .story-second-next{
+    filter:none!important;
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  .story-second-line .story-second-echo{opacity:.6!important}
+}
