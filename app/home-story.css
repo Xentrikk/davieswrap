@@ -713,7 +713,9 @@
    supporting trust, certification and proven hands-on experience.
    Russo One is already loaded as --headline; no extra fonts to download. */
 .site-frame-immersive .intro-statement-title{
-  font-family:var(--headline);
+  /* next/font variables are defined on body, so resolve the font directly
+     instead of inheriting the unresolved root-level --headline alias. */
+  font-family:var(--font-headline),Impact,"Arial Black",sans-serif;
   font-weight:400;
   font-size:clamp(44px,5.55vw,99px);
   line-height:1.02;
@@ -735,7 +737,7 @@
   margin-top:clamp(16px,2vw,25px);
 }
 .site-frame-immersive .story-second-echo{
-  font-family:var(--headline);
+  font-family:var(--font-headline),Impact,"Arial Black",sans-serif;
   font-weight:400;
   font-size:clamp(21px,2.65vw,44px);
   letter-spacing:-.035em;
