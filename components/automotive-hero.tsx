@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { contactDetails } from '@/lib/business-data';
 
 export function AutomotiveHero() {
   return (
@@ -14,7 +15,7 @@ export function AutomotiveHero() {
         priority
       />
       <div className="hero-showcase-actions">
-        <Link className="hero-showcase-button hero-showcase-quote" href="/contact">Get a Quote <span aria-hidden="true">→</span></Link>
+        <a className="hero-showcase-button hero-showcase-quote" href={contactDetails.bookingHref}>Book <span aria-hidden="true">→</span></a>
         <Link className="hero-showcase-button hero-showcase-work" href="#instagram-work">View Our Work <span aria-hidden="true">→</span></Link>
       </div>
     </section>
