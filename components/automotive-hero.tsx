@@ -8,21 +8,23 @@ import { contactDetails } from '@/lib/business-data';
 // bi-directional scroll seeking. The video deliberately NEVER autoplays.
 const INTRO_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/aa38a087-410c-4285-9f7f-fa5718a3efad.mp4';
 const PHONE_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/84e8f177-a84f-4e85-b4bf-9d1df67d6644.mp4';
+const MOBILE_POSTER = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/f67dcda4-46b8-4e94-b7b5-03ef6231c0b6.jpg';
 const INTRO_POSTER = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg';
 
 // Mobile browsers (especially iOS Safari) can stall when seeking a paused MP4.
 // Each sheet holds 25 frames arranged in a 5×5 grid. Together they reproduce
 // the same approved 10-second film without the mobile video-decoder dependency.
 const MOBILE_FRAME_SHEETS = [
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/82522045-8e59-4b70-a373-c4780a9c2114.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/fa2230bc-fc25-47b6-8cce-cbafc77c24bd.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/dd394879-20c5-42ba-b9b4-baacbb4305b9.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/e3bf7b9e-5ef5-445d-afea-96d569cb6493.webp',
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/7149b856-b795-4389-9642-cfa64b862c12.webp',
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/8b8d75aa-7737-4642-995e-edcba4248fbd.webp',
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/d68e9b6c-a75c-4d1f-99cf-8b020ff8e7f9.webp',
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/2cd94058-ceb1-4d62-8e66-90418575c8e1.webp',
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/54e18319-87df-4c9f-8eb4-b5f8f70448db.webp',
 ];
-const FRAME_WIDTH = 560;
-const FRAME_HEIGHT = 316;
+const FRAME_WIDTH = 480;
+const FRAME_HEIGHT = 854;
 const SHEET_COLUMNS = 5;
-const FRAMES_PER_SHEET = 25;
+const FRAMES_PER_SHEET = 20;
 const FRAME_COUNT = 100;
 const MOBILE_FRAME_QUERY = '(pointer: coarse), (max-width: 760px)';
 
@@ -32,7 +34,6 @@ const clamp = (value: number, minimum: number, maximum: number) =>
 export function AutomotiveHero() {
   const trackRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const phoneVideoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -44,16 +45,14 @@ export function AutomotiveHero() {
     const track = trackRef.current;
     const stage = stageRef.current;
     const video = videoRef.current;
-    const phoneVideo = phoneVideoRef.current;
     const canvas = canvasRef.current;
-    if (!track || !stage || !video || !phoneVideo || !canvas) return;
+    if (!track || !stage || !video || !canvas) return;
 
     let scheduled = 0;
     let wantedTime = 0;
     let lastPercent = -1;
     let lastFrame = -1;
     let framesStarted = false;
-    let phoneVideoFailed = false;
 
     const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const mobileMedia = window.matchMedia(MOBILE_FRAME_QUERY);
@@ -116,14 +115,9 @@ export function AutomotiveHero() {
     }
 
     function seekToWantedTime() {
-      const target = mobileMedia.matches ? phoneVideo : video;
-      if (!target || motionPreference.matches || target.readyState < 1 || target.seeking) return;
-      if (Math.abs(target.currentTime - wantedTime) <= 0.045) return;
-      try {
-        target.currentTime = wantedTime;
-      } catch {
-        // Retry on metadata or the next input event if Safari has not unlocked decoding.
-      }
+      if (!video || mobileMedia.matches || motionPreference.matches || video.readyState < 1 || video.seeking) return;
+      if (Math.abs(video.currentTime - wantedTime) <= 0.045) return;
+      try { video.currentTime = wantedTime; } catch { /* Retry once the video is seekable. */ }
     }
 
     function update() {
@@ -155,14 +149,8 @@ export function AutomotiveHero() {
       }
 
       if (mobileMedia.matches) {
-        const duration = Number.isFinite(phoneVideo.duration) && phoneVideo.duration > 0 ? phoneVideo.duration : 8;
-        wantedTime = progress * Math.max(0, duration - 0.02);
-        if (!phoneVideoFailed) seekToWantedTime();
-        else {
-          // Preserve the previous reliable frame-sheet implementation if video loading fails.
-          if (!motionPreference.matches) loadMobileFrames();
-          drawMobileFrame(progress);
-        }
+        if (!motionPreference.matches) loadMobileFrames();
+        drawMobileFrame(progress);
       } else if (Number.isFinite(video.duration) && video.duration > 0) {
         wantedTime = progress * Math.max(0, video.duration - 0.018);
         seekToWantedTime();
@@ -171,38 +159,25 @@ export function AutomotiveHero() {
 
     function onMetadataReady() {
       video.pause();
-      phoneVideo.pause();
       requestUpdate();
     }
 
     function onSeeked() {
-      const active = mobileMedia.matches ? phoneVideo : video;
-      if (Math.abs(active.currentTime - wantedTime) > 0.075) requestUpdate();
+      if (!mobileMedia.matches && Math.abs(video.currentTime - wantedTime) > 0.075) requestUpdate();
     }
 
     function onPlay() {
       video.pause();
-      phoneVideo.pause();
-      requestUpdate();
-    }
-
-    function onPhoneError() {
-      phoneVideoFailed = true;
-      track.classList.add('mobile-film-fallback');
-      loadMobileFrames();
       requestUpdate();
     }
 
     function onModeChange() {
       video.pause();
-      phoneVideo.pause();
       if (mobileMedia.matches) {
         video.preload = 'none';
-        phoneVideo.preload = 'auto';
-        if (phoneVideo.networkState === HTMLMediaElement.NETWORK_EMPTY) phoneVideo.load();
+        if (!motionPreference.matches) loadMobileFrames();
       } else {
         video.preload = 'auto';
-        phoneVideo.preload = 'none';
         video.load();
       }
       requestUpdate();
@@ -210,14 +185,9 @@ export function AutomotiveHero() {
 
     function onMotionChange() {
       video.pause();
-      phoneVideo.pause();
       requestUpdate();
     }
 
-    phoneVideo.addEventListener('loadedmetadata', onMetadataReady);
-    phoneVideo.addEventListener('seeked', onSeeked);
-    phoneVideo.addEventListener('play', onPlay);
-    phoneVideo.addEventListener('error', onPhoneError);
     video.addEventListener('loadedmetadata', onMetadataReady);
     video.addEventListener('seeked', onSeeked);
     video.addEventListener('play', onPlay);
@@ -231,10 +201,6 @@ export function AutomotiveHero() {
 
     return () => {
       if (scheduled) window.cancelAnimationFrame(scheduled);
-      phoneVideo.removeEventListener('loadedmetadata', onMetadataReady);
-      phoneVideo.removeEventListener('seeked', onSeeked);
-      phoneVideo.removeEventListener('play', onPlay);
-      phoneVideo.removeEventListener('error', onPhoneError);
       video.removeEventListener('loadedmetadata', onMetadataReady);
       video.removeEventListener('seeked', onSeeked);
       video.removeEventListener('play', onPlay);
@@ -272,25 +238,13 @@ export function AutomotiveHero() {
         >
           <source src={INTRO_VIDEO} type="video/mp4" />
         </video>
-        <video
-          ref={phoneVideoRef}
-          className="hero-showcase-phone-video"
-          playsInline
-          muted
-          preload="none"
-          controls={false}
-          disablePictureInPicture
-          aria-hidden="true"
-        >
-          <source src={PHONE_VIDEO} type="video/mp4" />
-        </video>
         <canvas
           ref={canvasRef}
           className="hero-showcase-frames"
           width={FRAME_WIDTH}
           height={FRAME_HEIGHT}
           aria-hidden="true"
-          style={{ backgroundImage: `url("${INTRO_POSTER}")` }}
+          style={{ backgroundImage: `url("${MOBILE_POSTER}")` }}
         />
 
         <div className="scroll-film-hud">
