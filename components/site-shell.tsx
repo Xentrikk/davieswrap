@@ -19,7 +19,7 @@ export function SiteHeader() {
         </span>
       </Link>
       <GooeyNav items={nav} />
-      <a className="header-cta" href={contactDetails.phoneHref}><span>Start a project</span><b>↗</b></a>
+      <a className="header-cta" href={contactDetails.bookingHref}><span>Book</span><b>↗</b></a>
     </header>
   );
 }
@@ -28,7 +28,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-lead"><p className="eyebrow">Hampshire / UK</p><h2>MAKE THE<br/>FIRST IMPRESSION<br/><em>COUNT.</em></h2></div>
-      <div className="footer-contact"><p>Professional installation.<br/>Consistent service. No shortcuts.</p><a href={contactDetails.phoneHref}>{contactDetails.phoneDisplay} ↗</a><a href={contactDetails.emailHref}>{contactDetails.email} ↗</a><a href={contactDetails.websiteHref}>{contactDetails.website} ↗</a><a href="https://www.instagram.com/thewrapspecialist" target="_blank" rel="noreferrer">@thewrapspecialist ↗</a></div>
+      <div className="footer-contact"><p>Specialist workmanship. Clear advice. Finishes built to last.</p><a href={contactDetails.bookingHref}>Book an installation ↗</a><a href={contactDetails.phoneHref}>Ask Chris · {contactDetails.phoneDisplay} ↗</a><a href={contactDetails.emailHref}>{contactDetails.email} ↗</a><a href={contactDetails.websiteHref}>{contactDetails.website} ↗</a><a href="https://www.instagram.com/thewrapspecialist" target="_blank" rel="noreferrer">@thewrapspecialist ↗</a></div>
       <div className="footer-bottom"><span>© {new Date().getFullYear()} Davies Wrap Specialist</span><span>Bursledon · SO31</span><span>Arlon / STEK accredited</span></div>
     </footer>
   );
