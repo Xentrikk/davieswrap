@@ -66,7 +66,7 @@ export function AutomotiveHero() {
 
       // A small, fixed-size canvas avoids MP4 seek failures on phones.
       // Its poster background remains visible until the appropriate sheet loads.
-      const context = canvas.getContext('2d', { alpha: false });
+      const context = canvas.getContext('2d');
       if (!context) return;
 
       MOBILE_FRAME_SHEETS.forEach((source, sheetIndex) => {
@@ -96,7 +96,7 @@ export function AutomotiveHero() {
       const tileIndex = frame % FRAMES_PER_SHEET;
       const sourceX = (tileIndex % SHEET_COLUMNS) * FRAME_WIDTH;
       const sourceY = Math.floor(tileIndex / SHEET_COLUMNS) * FRAME_HEIGHT;
-      const context = canvas.getContext('2d', { alpha: false });
+      const context = canvas.getContext('2d');
       if (!context) return;
 
       context.drawImage(
