@@ -78,7 +78,8 @@
 
 /* "ENGINEERED TO LAST." — second pinned, scroll-scrubbed chapter. */
 .story-second-line{
-  --story-head:0;--story-ink:0;--story-sub:0;--story-stats:0;--story-echo:1;
+  /* Progressive values are applied on hydration; readable static fallbacks remain for no-JS visitors. */
+  --story-head:1;--story-ink:1;--story-sub:1;--story-stats:1;--story-echo:0;
   height:205svh;position:relative;background:#090a0a;color:#efeee8;isolation:isolate;
 }
 .story-second-stage{
