@@ -32,6 +32,7 @@ export function AutomotiveHero() {
   const trackRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const meterRef = useRef<HTMLSpanElement>(null);
   const percentageRef = useRef<HTMLOutputElement>(null);
@@ -55,6 +56,8 @@ export function AutomotiveHero() {
     const imageSheets: HTMLImageElement[] = [];
 
     video.pause();
+    const enableKinetic = !motionPreference.matches;
+    track.classList.toggle('intro-kinetic-active', enableKinetic);
 
     function requestUpdate() {
       if (!scheduled) scheduled = window.requestAnimationFrame(update);
@@ -131,6 +134,14 @@ export function AutomotiveHero() {
         : clamp(-track.getBoundingClientRect().top / distance, 0, 1);
 
       if (meterRef.current) meterRef.current.style.transform = `scaleX(${progress})`;
+      if (lineRef.current && !motionPreference.matches) {
+        // Each word rises and resolves through the marina-to-sunset transition.
+        lineRef.current.style.setProperty('--intro-first', String(clamp((progress - 0.19) / 0.24, 0, 1)));
+        lineRef.current.style.setProperty('--intro-second', String(clamp((progress - 0.34) / 0.25, 0, 1)));
+        lineRef.current.style.setProperty('--intro-third', String(clamp((progress - 0.49) / 0.27, 0, 1)));
+        lineRef.current.style.setProperty('--intro-underline', String(clamp((progress - 0.56) / 0.35, 0, 1)));
+        lineRef.current.style.setProperty('--intro-eyebrow', String(clamp((progress - 0.09) / 0.20, 0, 1)));
+      }
       const percent = Math.round(progress * 100);
       if (percent !== lastPercent) {
         lastPercent = percent;
@@ -201,6 +212,7 @@ export function AutomotiveHero() {
       window.removeEventListener('pageshow', requestUpdate);
       mobileMedia.removeEventListener('change', onModeChange);
       motionPreference.removeEventListener('change', onMotionChange);
+      track.classList.remove('intro-kinetic-active');
       for (const image of imageSheets) {
         image.onload = null;
         image.onerror = null;
@@ -257,10 +269,14 @@ export function AutomotiveHero() {
           <a href="#after-intro" className="scroll-film-skip">Skip intro <span aria-hidden="true">↘</span></a>
         </div>
 
-        <div className="hero-showcase-mobile-copy">
-          <p className="hero-showcase-eyebrow">DAVIES / THE WRAP SPECIALIST</p>
-          <h1>NOT JUST WRAPPED.<br /><em>ENGINEERED TO LAST.</em></h1>
-          <p>Over 20 years of specialist film installation. Arlon Fleet and Restyling certified. STEK PPF approved.</p>
+        <div ref={lineRef} className="intro-statement">
+          <p className="intro-statement-kicker"><span className="intro-kicker-dash" aria-hidden="true" /> MADE TO STAND OUT. BUILT TO STAY THAT WAY.</p>
+          <h1 className="intro-statement-title" aria-label="Not just wrapped.">
+            <span className="intro-word">NOT</span>{' '}
+            <span className="intro-word">JUST</span>{' '}
+            <span className="intro-word intro-word-final">WRAPPED.</span>
+          </h1>
+          <span className="intro-statement-rule" aria-hidden="true" />
         </div>
 
         <div className="hero-showcase-actions">
@@ -273,7 +289,7 @@ export function AutomotiveHero() {
         </div>
 
         <div className="scroll-film-prompt" aria-hidden="true">
-          <span>SCROLL DOWN</span>
+          <span>SCROLL TO THE REVEAL</span>
           <span className="scroll-film-arrow">↓</span>
         </div>
       </div>

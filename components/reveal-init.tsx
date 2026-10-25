@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 
 export function RevealInit() {
   useEffect(() => {
-    const selectors = [
+    // The immersive homepage has its own progress-driven chapter animations.
+    const immersive = document.querySelector('.site-frame-immersive');
+    const selectors = immersive ? ['.footer-lead', '.footer-contact'] : [
       'main > section:not(.hero-cinematic) > *',
       '.section-heading > *',
       '.service-bay-head > *',
