@@ -1554,3 +1554,27 @@
 @media(max-width:600px){
   .operator-image-pair{aspect-ratio:1.15}
 }
+
+/* Davies CTA consistency: all Book actions link to the external booking service; Ask Chris dials directly. */
+.intro-action-row,.cta-action-row,.rate-action-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.intro-action-row{margin-top:25px}
+.cta-action-row{margin-top:24px}
+.intro-action-row a,.cta-action-row a,.rate-action-row a{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-height:47px;padding:13px 18px;border:1px solid rgba(255,255,255,.29);font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.intro-action-row a:hover,.cta-action-row a:hover,.rate-action-row a:hover{transform:translateY(-2px)}
+.intro-action-row .booking-primary,.cta-action-row .booking-primary,.rate-action-row .booking-primary{background:#b84e29;border-color:#d7673c;color:#fff}
+.intro-action-row .booking-primary:hover,.cta-action-row .booking-primary:hover,.rate-action-row .booking-primary:hover{background:#db6135}
+.intro-action-row .booking-secondary,.cta-action-row .booking-secondary,.rate-action-row .booking-secondary{background:rgba(9,13,12,.35);color:#f3f2ed}
+.intro-action-row .booking-secondary:hover,.cta-action-row .booking-secondary:hover,.rate-action-row .booking-secondary:hover{border-color:#f1b38c}
+.rate-action-row{margin-top:auto;padding-top:20px}
+.rate-action-row a{font-size:10px;gap:15px;flex:1 1 110px}
+.rates .rate-card{display:flex;flex-direction:column}
+.rates .rate-card .service-summary{color:#cdd2cd;font-size:12px;line-height:1.7;margin-top:14px}
+.rates .rates-intro-note{margin:0 0 22px;color:#becac2;font-size:12px;line-height:1.75;max-width:770px}
+.cta-strip .cta-support-copy{max-width:700px;font-size:13px;line-height:1.8;color:#e0dfd6}
+.contact-project-section .contact-email-direct{margin:22px 0 0;font-size:12px;line-height:1.7;color:#d6d9d5}
+.contact-project-section .contact-email-direct a{color:#ffd1b0;text-decoration:underline;text-underline-offset:4px}
+.contact-project-section .form-email-notice{font-size:11px;line-height:1.7;color:#c4cbc6;margin:16px 0 0}
+.contact-project-section .form-email-notice strong{color:#fff}
+.contact-project-section .form-email-feedback{border-left:3px solid #e07742;padding:12px 15px;background:rgba(255,255,255,.07);color:#fff;font-size:12px;line-height:1.7}
+.contact-project-section .form-email-feedback a{text-decoration:underline;color:#ffd1b0}
+@media(max-width:600px){.intro-action-row a,.cta-action-row a{min-height:45px;padding:11px 14px;font-size:10px}.rate-action-row{gap:9px}.rate-action-row a{font-size:10px}.contact-project-section .contact-email-direct{overflow-wrap:anywhere}}
