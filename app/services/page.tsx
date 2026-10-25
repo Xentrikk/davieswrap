@@ -30,6 +30,15 @@ export default function Services() {
           </div>
         </section>
 
+        <section className="page-proof-ribbon" aria-label="Davies installation credentials">
+          <div className="page-proof-ribbon-inner">
+            <span><b>20+</b> YEARS ON THE TOOLS</span><i aria-hidden="true">✳</i>
+            <span><b>ARLON</b> FLEET &amp; RESTYLING CERTIFIED</span><i aria-hidden="true">✳</i>
+            <span><b>STEK</b> PPF APPROVED</span><i aria-hidden="true">✳</i>
+            <span><b>AVERY 800</b> TO TODAY&apos;S TECHNOLOGY</span><i aria-hidden="true">✳</i>
+          </div>
+        </section>
+
         <section className="rates section-pad section-dark">
           <div className="section-heading">
             <div><Eyebrow>Published local day rates</Eyebrow><h2>CLEAR RATES.<br /><em>NO GUESSWORK.</em></h2></div>

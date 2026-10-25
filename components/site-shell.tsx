@@ -34,6 +34,6 @@ export function SiteFooter() {
   );
 }
 
-export function Shell({ children }: { children: React.ReactNode }) { return <><RevealInit /><div className="site-atmosphere" aria-hidden="true"><div className="atmosphere-veil"/><div className="atmosphere-lines"/><div className="atmosphere-grain"/></div><div className="site-frame"><SiteHeader />{children}<SiteFooter /></div></>; }
+export function Shell({ children, immersive = false }: { children: React.ReactNode; immersive?: boolean }) { return <><RevealInit /><div className="site-atmosphere" aria-hidden="true"><div className="atmosphere-veil"/><div className="atmosphere-lines"/><div className="atmosphere-grain"/></div><div className={`site-frame${immersive ? ' site-frame-immersive' : ''}`}><SiteHeader />{children}<SiteFooter /></div></>; }
 export function Eyebrow({ children }: { children: React.ReactNode }) { return <p className="eyebrow"><i />{children}</p>; }
 export function ArrowLink({ href, children, light = false }: { href: string; children: React.ReactNode; light?: boolean }) { return <Link className={`arrow-link${light ? ' arrow-link-light' : ''}`} href={href}><span>{children}</span><b>↗</b></Link>; }

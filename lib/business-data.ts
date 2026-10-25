@@ -74,7 +74,7 @@ export const contactDetails = {
   email: 'hello@cdavies.work',
   emailHref: 'mailto:hello@cdavies.work',
   website: 'cdavies.work',
-  websiteHref: 'https://cdavies.work',
+  websiteHref: 'https://www.cdavies.work',
 };
 
 export const projectDetails = [
