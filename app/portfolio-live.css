@@ -1645,7 +1645,7 @@
     background:#050606;
   }
   .hero-showcase-cinematic::after{
-    background:linear-gradient(180deg,transparent 0%,transparent 28%,#080a09 48%,#050606 100%);
+    background:linear-gradient(180deg,transparent 0%,transparent 40%,#080a09 56%,#050606 100%);
     opacity:.92;
   }
   .hero-showcase-mobile-copy{
