@@ -1578,3 +1578,132 @@
 .contact-project-section .form-email-feedback{border-left:3px solid #e07742;padding:12px 15px;background:rgba(255,255,255,.07);color:#fff;font-size:12px;line-height:1.7}
 .contact-project-section .form-email-feedback a{text-decoration:underline;color:#ffd1b0}
 @media(max-width:600px){.intro-action-row a,.cta-action-row a{min-height:45px;padding:11px 14px;font-size:10px}.rate-action-row{gap:9px}.rate-action-row a{font-size:10px}.contact-project-section .contact-email-direct{overflow-wrap:anywhere}}
+
+/* Approved October 2026 marina film: homepage intro. Keep the existing branding/CTAs. */
+.hero-showcase-cinematic{
+  min-height:clamp(650px,calc(100svh - 86px),1000px);
+  position:relative;
+  background:#050606 url('/images/davies-marina-hero.png') center/cover no-repeat;
+}
+.hero-showcase-cinematic .hero-showcase-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  z-index:0;
+  background:transparent;
+}
+.hero-showcase-cinematic::after{
+  z-index:1;
+  background:linear-gradient(180deg,rgba(0,0,0,.03) 0%,transparent 48%,rgba(0,0,0,.3) 76%,rgba(0,0,0,.56) 100%);
+}
+.hero-showcase-cinematic .hero-showcase-actions{z-index:3}
+.hero-showcase-controls{
+  position:absolute;
+  z-index:4;
+  top:20px;
+  right:clamp(15px,3vw,42px);
+  display:flex;
+  gap:8px;
+}
+.hero-showcase-controls button{
+  min-height:36px;
+  padding:8px 13px;
+  color:#f4f3ed;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:3px;
+  background:rgba(8,10,10,.72);
+  backdrop-filter:blur(12px);
+  cursor:pointer;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.hero-showcase-controls button:hover,
+.hero-showcase-controls button:focus-visible{
+  border-color:#f17a3e;
+  outline:2px solid transparent;
+  background:rgba(35,20,15,.88);
+}
+.hero-showcase-mobile-copy{display:none}
+@media(max-width:700px){
+  .hero-showcase-cinematic{
+    min-height:650px;
+    height:max(650px,calc(100svh - 86px));
+    background:#070909;
+  }
+  .hero-showcase-cinematic .hero-showcase-video{
+    inset:0 0 auto;
+    width:100%;
+    height:auto;
+    aspect-ratio:1912/1080;
+    object-fit:contain;
+    background:#050606;
+  }
+  .hero-showcase-cinematic::after{
+    background:linear-gradient(180deg,transparent 0%,transparent 40%,#080a09 56%,#050606 100%);
+    opacity:.92;
+  }
+  .hero-showcase-mobile-copy{
+    position:absolute;
+    z-index:3;
+    display:block;
+    top:calc(100vw * 1080 / 1912 + 36px);
+    left:7vw;
+    right:7vw;
+    max-width:540px;
+    color:#f2eee7;
+  }
+  .hero-showcase-mobile-copy .hero-showcase-eyebrow{
+    color:#e88955;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.16em;
+    margin:0 0 17px;
+  }
+  .hero-showcase-mobile-copy h1{
+    margin:0;
+    font-family:var(--font-headline),Impact,sans-serif;
+    font-size:clamp(26px,6vw,42px);
+    line-height:1.06;
+    letter-spacing:-.03em;
+  }
+  .hero-showcase-mobile-copy h1 em{color:#ed7944;font-style:normal}
+  .hero-showcase-mobile-copy>p:last-child{
+    max-width:410px;
+    margin:16px 0 0;
+    color:#b6bdb8;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .hero-showcase-controls{
+    top:calc(100vw * 1080 / 1912 - 44px);
+    right:13px;
+  }
+  .hero-showcase-controls button{
+    min-height:32px;
+    padding:6px 10px;
+    font-size:9px;
+  }
+  .hero-showcase-cinematic .hero-showcase-actions{
+    bottom:24px;
+    left:0;
+    right:0;
+    width:auto;
+    padding:0 7vw;
+    gap:10px;
+  }
+  .hero-showcase-cinematic .hero-showcase-button{
+    width:100%;
+    max-width:430px;
+    height:48px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-showcase-controls button,
+  .hero-showcase-cinematic .hero-showcase-button{transition:none}
+}
