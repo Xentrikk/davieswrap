@@ -844,3 +844,66 @@
   }
   .story-second-line .story-second-echo{opacity:.6!important}
 }
+
+/* Dedicated 9:16 mobile film, supplied by the owner. Desktop film, timing
+   and sprite-sheet fallback remain unchanged. */
+.scroll-film-stage .hero-showcase-phone-video{
+  display:none;
+}
+@media(max-width:760px),(pointer:coarse){
+  .scroll-film-stage .hero-showcase-phone-video{
+    position:absolute;
+    inset:0;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+    background:#0b0d0b;
+    pointer-events:none;
+    z-index:0;
+  }
+  .scroll-film-stage .hero-showcase-frames{
+    display:none;
+  }
+  .scroll-film-track.mobile-film-fallback .hero-showcase-phone-video{
+    display:none;
+  }
+  .scroll-film-track.mobile-film-fallback .hero-showcase-frames{
+    display:block;
+  }
+}
+@media(max-width:700px){
+  .site-frame-immersive .scroll-film-stage .hero-showcase-phone-video{
+    height:100%;
+    width:100%;
+    object-fit:cover;
+  }
+  .site-frame-immersive .scroll-film-hud{
+    top:90px;
+    padding:10px 15px;
+    background:linear-gradient(90deg,rgba(0,0,0,.36),rgba(0,0,0,.13));
+  }
+  .site-frame-immersive .scroll-film-stage::after{
+    background:linear-gradient(180deg,rgba(0,0,0,.36),transparent 27%,rgba(0,0,0,.07) 44%,rgba(0,0,0,.66) 83%,rgba(0,0,0,.85));
+    opacity:1;
+  }
+  .site-frame-immersive .intro-statement{
+    top:auto;
+    bottom:23%;
+    left:7vw;
+    right:7vw;
+    filter:drop-shadow(0 5px 19px rgba(0,0,0,.8));
+  }
+  .site-frame-immersive .scroll-film-stage .hero-showcase-actions{
+    bottom:23px;
+  }
+  .site-frame-immersive .scroll-film-prompt{
+    display:none;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .scroll-film-stage .hero-showcase-phone-video{
+    display:none;
+  }
+}
