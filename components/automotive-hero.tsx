@@ -33,6 +33,7 @@ export function AutomotiveHero() {
     const mobileMedia = window.matchMedia(MOBILE_FRAME_QUERY);
     const cache = new Map<string, HTMLImageElement>();
     const queued = new Set<string>();
+    const activeRequests = new Set<string>();
     const waiting: Array<{ key: string; src: string }> = [];
     let inFlight = 0;
     let requestId = 0;
@@ -51,7 +52,7 @@ export function AutomotiveHero() {
     track.classList.toggle('intro-kinetic-active', !reduceMotion.matches);
 
     function trimCache() {
-      if (cache.size <= 16) return;
+      if (cache.size <= 22) return;
       const prefix = lastMobile ? 'm:' : 'd:';
       const deletable = [...cache.keys()]
         .filter(key => key !== renderedKey && key !== prefix + desired)
@@ -61,7 +62,7 @@ export function AutomotiveHero() {
           return distance(b) - distance(a);
         });
       for (const key of deletable) {
-        if (cache.size <= 13) break;
+        if (cache.size <= 18) break;
         cache.delete(key);
       }
     }
@@ -85,22 +86,27 @@ export function AutomotiveHero() {
     function pump() {
       while (inFlight < 4 && waiting.length && !destroyed) {
         const job = waiting.shift()!;
-        if (!queued.has(job.key)) continue;
+        if (!queued.has(job.key) || cache.has(job.key)) continue;
+        activeRequests.add(job.key);
         inFlight++;
         const img = new Image();
         img.decoding = 'async';
         img.onload = () => {
           inFlight--;
+          activeRequests.delete(job.key);
           queued.delete(job.key);
           if (!destroyed) {
             cache.set(job.key, img);
             trimCache();
-            if (job.key === (lastMobile ? 'm:' : 'd:') + desired || !renderedKey) requestUpdate();
+            // If scroll moved while downloading, render the nearest ready
+            // image immediately instead of keeping an outdated distant frame.
+            requestUpdate();
             pump();
           }
         };
         img.onerror = () => {
           inFlight--;
+          activeRequests.delete(job.key);
           queued.delete(job.key);
           if (!destroyed) pump();
         };
@@ -109,34 +115,52 @@ export function AutomotiveHero() {
     }
 
     function preloadNear(index: number, direction: number) {
-      enqueue(index, true);
-      for (let offset = 1; offset <= 5; offset++) enqueue(index + direction * offset, offset <= 2);
-      for (let offset = 1; offset <= 3; offset++) enqueue(index - direction * offset);
-      if (waiting.length > 22) {
-        const prefix = lastMobile ? 'm:' : 'd:';
-        const near = waiting.filter(job =>
-          job.key.startsWith(prefix) && Math.abs(Number(job.key.split(':')[1]) - index) <= 9
-        );
-        waiting.length = 0;
-        waiting.push(...near);
-        for (const key of [...queued]) {
-          if (!cache.has(key) && !waiting.some(job => job.key === key) && key !== renderedKey) {
-            // Started requests will finish; the current target gets priority.
-            queued.delete(key);
-          }
+      const count = lastMobile ? DAVIES_MOBILE_FRAMES.length : DAVIES_DESKTOP_FRAMES.length;
+      const prefix = lastMobile ? 'm:' : 'd:';
+
+      // Discard stale *pending* requests, never interrupt in-flight responses.
+      for (let i = waiting.length - 1; i >= 0; i--) {
+        const job = waiting[i];
+        const position = Number(job.key.split(':')[1]);
+        if (!job.key.startsWith(prefix) || Math.abs(position - index) > 6) {
+          waiting.splice(i, 1);
+          if (!activeRequests.has(job.key)) queued.delete(job.key);
         }
       }
+
+      // Request the current frame first; focus bandwidth on the direction of scroll.
+      enqueue(index, true);
+      for (let offset = 1; offset <= 3; offset++) {
+        enqueue(index + direction * offset, offset <= 2);
+      }
+      for (let offset = 1; offset <= 2; offset++) {
+        enqueue(index - direction * offset);
+      }
+      // Begin caching nearby frames at the boundary for a more fluid first gesture.
+      if (index <= 2 || index >= count - 3) enqueue(index + direction * 4);
     }
 
     function draw(index: number) {
       const key = (lastMobile ? 'm:' : 'd:') + index;
-      const image = cache.get(key);
-      if (!image || !canvas || !context || key === renderedKey) return;
+      let image = cache.get(key);
+      let actualIndex = index;
+      if (!image) {
+        // Show a nearby decoded frame rather than freezing on an unrelated shot
+        // while the exact frame downloads. Exact frames replace it when ready.
+        const prefix = lastMobile ? 'm:' : 'd:';
+        for (let distance = 1; distance <= 3 && !image; distance++) {
+          for (const near of [index - distance, index + distance]) {
+            const candidate = cache.get(prefix + near);
+            if (candidate) { image = candidate; actualIndex = near; break; }
+          }
+        }
+      }
+      if (!image || !canvas || !context || (lastMobile ? 'm:' : 'd:') + actualIndex === renderedKey) return;
       try {
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
-        renderedKey = key;
-        canvas.dataset.frame = String(index);
+        renderedKey = (lastMobile ? 'm:' : 'd:') + actualIndex;
+        canvas.dataset.frame = String(actualIndex);
         canvas.dataset.quality = 'native-full-hd';
       } catch { /* Keep the previous decoded frame visible. */ }
     }

@@ -44,18 +44,18 @@ export default function Home() {
         </section>
 
         <div id="after-intro" className="kinetic-rail story-kinetic-rail" aria-hidden="true">
-          <div><span>THE OLD SCHOOL SKILL</span><i>◆</i><span>THE NEW SCHOOL FILMS</span><i>◆</i><span>FLEET</span><i>◆</i><span>RESTYLING</span><i>◆</i><span>PPF</span><i>◆</i><span>MARINE</span><i>◆</i><span>NO SHORTCUTS</span><i>◆</i></div>
+          <div><span>PROVEN INSTALLATION EXPERTISE</span><i>◆</i><span>ADVANCED FILM TECHNOLOGY</span><i>◆</i><span>FLEET</span><i>◆</i><span>RESTYLING</span><i>◆</i><span>PPF</span><i>◆</i><span>MARINE</span><i>◆</i><span>NO SHORTCUTS</span><i>◆</i></div>
         </div>
 
         <section className="manifesto section-pad story-manifesto" aria-labelledby="story-material-title">
-          <div className="manifesto-index" data-kinetic="stamp">02 / THE KNOW-HOW</div>
+          <div className="manifesto-index" data-kinetic="stamp">02 / TECHNICAL EXPERTISE</div>
           <div className="story-manifesto-heading">
-            <Eyebrow>From the first cast films to today</Eyebrow>
-            <h2 id="story-material-title" data-kinetic="headline">OLD-SCHOOL SKILL.<br/><em>NEW-SCHOOL FILMS.</em></h2>
+            <Eyebrow>20+ years of specialist installation experience</Eyebrow>
+            <h2 id="story-material-title" data-kinetic="headline">ESTABLISHED EXPERTISE.<br/><em>MODERN MATERIALS.</em></h2>
             <div className="story-film-journey" data-kinetic="rise">
-              <div><span>THEN</span><strong>AVERY 800</strong><small>Before modern air-release films</small></div>
+              <div><span>FOUNDATION</span><strong>AVERY 800</strong><small>Traditional cast-film installation expertise</small></div>
               <span className="story-film-journey-arrow" aria-hidden="true">↗</span>
-              <div><span>NOW</span><strong>LATEST SYSTEMS</strong><small>Fleet, restyling, STEK PPF &amp; more</small></div>
+              <div><span>TODAY</span><strong>ADVANCED FILM SYSTEMS</strong><small>Fleet, restyling, STEK PPF &amp; more</small></div>
             </div>
           </div>
           <p className="story-manifesto-body" data-kinetic="slide">
