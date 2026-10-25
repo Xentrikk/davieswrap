@@ -907,3 +907,23 @@
     display:none;
   }
 }
+
+/* Reliable 9:16 owner-supplied mobile intro: high-quality still frames
+   are driven by scrolling. Desktop widescreen movie stays unchanged. */
+@media(max-width:760px),(pointer:coarse){
+  .scroll-film-track .scroll-film-stage .hero-showcase-video,
+  .scroll-film-track .scroll-film-stage .hero-showcase-phone-video{display:none}
+  .scroll-film-track .scroll-film-stage .hero-showcase-frames{
+    display:block;position:absolute;inset:0;width:100%;height:100%;
+    aspect-ratio:auto;object-fit:cover;object-position:center;
+    background-size:cover;background-position:center;
+  }
+}
+@media(max-width:700px){
+  .site-frame-immersive .scroll-film-stage .hero-showcase-frames{
+    width:100%;height:100%;aspect-ratio:auto;object-fit:cover;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .scroll-film-track .scroll-film-stage .hero-showcase-frames{display:block}
+}
