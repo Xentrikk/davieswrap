@@ -1864,3 +1864,41 @@
   }
   .scroll-film-hud,.scroll-film-prompt{display:none}
 }
+
+/* Stable mobile scroll animation: original video frames rendered from four
+   5×5 WebP atlases. Avoids iOS/Safari's unreliable paused-video seeking. */
+.scroll-film-stage .hero-showcase-frames{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  display:none;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  background-color:#050606;
+  background-size:cover;
+  background-position:center;
+  pointer-events:none;
+}
+@media(max-width:760px), (pointer:coarse){
+  .scroll-film-stage .hero-showcase-video{display:none}
+  .scroll-film-stage .hero-showcase-frames{display:block}
+}
+@media(max-width:700px){
+  .scroll-film-stage .hero-showcase-frames{
+    position:absolute;
+    inset:0 0 auto;
+    width:100%;
+    height:auto;
+    aspect-ratio:560 / 316;
+    object-fit:contain;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .scroll-film-stage .hero-showcase-frames{display:none}
+  .scroll-film-stage .hero-showcase-video{
+    display:block;
+    /* Poster only; no automatic playback or seeking. */
+  }
+}

@@ -1,24 +1,34 @@
-# Davies homepage: scroll-controlled cinema
+# Davies homepage: scroll-controlled intro, with mobile fallback
 
-The approved **10-second Davies marina film** is controlled by page scroll position, **not autoplay**.
+**Main site:** `www.cdavies.work` — the approved 10-second marina film (workshop, wrapped vehicles and yacht, ending at sunset) is tied to visitor scroll position.
 
-## Experience
-- The introduction pins in place for about 205% of the viewport's scroll distance.
-- Scrolling down advances the film from its opening frame to the sunset finale.
-- Scrolling up reverses the same sequence.
-- Visitors can choose **Skip intro**, **Book** (https://app.cdavies.work/book), or **View Our Work**.
-- A visible progress bar tracks the sequence.
-- No sound is played: audio scrubbing would be distracting.
-- Narrow screens show the full width of the film and move the heading / CTA below it without hiding the vehicles or yacht.
-- Reduced-motion visitors see a static introduction and can proceed normally.
+## Desktop
+- Uses the seek-optimised H.264 movie (keyframe every four frames).
+- No autoplay; scroll down progresses through the film, scroll back up reverses.
+- Video: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/aa38a087-410c-4285-9f7f-fa5718a3efad.mp4
 
-## Technical
-- Scroll playback media: `https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/aa38a087-410c-4285-9f7f-fa5718a3efad.mp4`
-- Poster image: `https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg`
-- The MP4 is recoded as a 1600×904 H.264 video with an **I-frame every 4 frames (0.167 seconds)** for responsive seeking in either direction.
-- No new imagery was generated. The approved video content itself was not re-edited.
-- Implementation lives in `components/automotive-hero.tsx` and the last portion of `app/portfolio-live.css`.
-- The hosting CDN is third-party. For permanent first-party storage, download both assets and serve them from your own `/public` paths, then update the constants in the component.
+## Phones and touch devices (including iOS Safari)
+- Browser-native paused MP4 seeking may fail to paint video frames on real iPhones even when Chrome mobile emulation works.
+- The mobile intro uses **100 frames extracted from the same approved movie**, arranged across four compressed WebP sprite sheets (total approximately **2.8 MB**).
+- A small canvas draws the relevant film frame on each scroll event; does not rely on video autoplay, decoding unlock gestures or `currentTime` seeking.
+- The opening poster stays visible until sprite sheets load, ensuring the page isn't blank.
+- Scroll progress is calculated against the stable sticky-stage height (not the changing iPhone toolbar viewport).
+- The laptop's video-based scroll implementation is unchanged.
 
-## Scope
-Only the main `www.cdavies.work` source is changed. The booking application at `app.cdavies.work` is untouched, and the older black-bonnet intro remains available for a later booking-site project.
+## Visitor experience
+- Sticky intro with scrubbed media, progress bar and Skip intro link.
+- Works in both scroll directions; visitor can still access Book and View Our Work.
+- Book: https://app.cdavies.work/book
+- Ask Chris links elsewhere: tel:07309052735
+- Reduced-motion users see the original static poster, and can continue without animation.
+
+## Assets
+- 0: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/82522045-8e59-4b70-a373-c4780a9c2114.webp
+- 1: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/fa2230bc-fc25-47b6-8cce-cbafc77c24bd.webp
+- 2: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/dd394879-20c5-42ba-b9b4-baacbb4305b9.webp
+- 3: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/e3bf7b9e-5ef5-445d-afea-96d569cb6493.webp
+- Poster: https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg
+- The assets are hosted on the connected Higgsfield CDN; consider migrating these files into first-party static hosting for long-term independence.
+
+Changes in `components/automotive-hero.tsx` and `app/portfolio-live.css`.
+The booking app at `app.cdavies.work` is untouched. No model generation or spending is involved.
