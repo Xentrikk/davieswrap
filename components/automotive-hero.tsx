@@ -135,7 +135,7 @@ export function AutomotiveHero() {
 
       if (meterRef.current) meterRef.current.style.transform = `scaleX(${progress})`;
       if (lineRef.current && !motionPreference.matches) {
-        // Each word rises and resolves through the marina-to-sunset transition.
+        // Each trust-and-skill statement rises in sequence through the marina-to-sunset transition.
         lineRef.current.style.setProperty('--intro-first', String(clamp((progress - 0.19) / 0.24, 0, 1)));
         lineRef.current.style.setProperty('--intro-second', String(clamp((progress - 0.34) / 0.25, 0, 1)));
         lineRef.current.style.setProperty('--intro-third', String(clamp((progress - 0.49) / 0.27, 0, 1)));
@@ -271,10 +271,10 @@ export function AutomotiveHero() {
 
         <div ref={lineRef} className="intro-statement">
           <p className="intro-statement-kicker"><span className="intro-kicker-dash" aria-hidden="true" /> MADE TO STAND OUT. BUILT TO STAY THAT WAY.</p>
-          <h1 className="intro-statement-title" aria-label="Not just wrapped.">
-            <span className="intro-word">NOT</span>{' '}
-            <span className="intro-word">JUST</span>{' '}
-            <span className="intro-word intro-word-final">WRAPPED.</span>
+          <h1 className="intro-statement-title" aria-label="Trusted. Trained. Proven.">
+            <span className="intro-word">TRUSTED.</span>{' '}
+            <span className="intro-word">TRAINED.</span>{' '}
+            <span className="intro-word intro-word-final">PROVEN.</span>
           </h1>
           <span className="intro-statement-rule" aria-hidden="true" />
         </div>

@@ -22,7 +22,7 @@ export default function Home() {
                 <span>01 / THE PROMISE</span>
                 <span>DAVIES WRAP SPECIALIST — HAMPSHIRE</span>
               </div>
-              <p className="story-second-echo" aria-hidden="true">NOT JUST WRAPPED.</p>
+              <p className="story-second-echo" aria-hidden="true">TRUSTED. TRAINED. PROVEN.</p>
               <h2 id="story-second-title" className="story-second-heading">
                 <span className="story-second-heading-first">ENGINEERED</span>
                 <span className="story-second-heading-final">TO LAST<span className="story-full-stop">.</span></span>
