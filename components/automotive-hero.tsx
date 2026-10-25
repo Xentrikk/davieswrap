@@ -40,6 +40,9 @@ export function AutomotiveHero() {
     let renderedKey = '';
     let lastPercent = -1;
     let lastMobile = mobileMedia.matches;
+    // Match the canvas bitmap to the source before the first mobile frame loads.
+    canvas.width = lastMobile ? 1080 : 1912;
+    canvas.height = lastMobile ? 1920 : 1080;
     let lastSelected = 0;
     let destroyed = false;
 
