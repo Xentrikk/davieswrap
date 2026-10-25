@@ -30,7 +30,7 @@ export default function Contact() {
       '',
       'Thanks,',
       field('name'),
-    ].join('\\n');
+    ].join('\n');
 
     // A mailto link opens the visitor's email app. It does not silently send data.
     window.location.href = `mailto:${contactDetails.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
