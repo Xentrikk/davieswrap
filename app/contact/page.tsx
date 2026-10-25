@@ -55,6 +55,15 @@ export default function Contact() {
           </div>
         </section>
 
+        <section className="page-proof-ribbon page-proof-ribbon-contact" aria-label="Why talk directly to Davies">
+          <div className="page-proof-ribbon-inner">
+            <span><b>NO CALL CENTRE.</b> STRAIGHT TO CHRIS</span><i aria-hidden="true">✳</i>
+            <span><b>20+</b> YEARS EXPERIENCE</span><i aria-hidden="true">✳</i>
+            <span><b>PREPARED.</b> FITTED. FINISHED.</span><i aria-hidden="true">✳</i>
+            <span><b>ARLON / STEK</b> APPROVED &amp; CERTIFIED</span><i aria-hidden="true">✳</i>
+          </div>
+        </section>
+
         <section className="contact-grid section-pad contact-project-section">
           <BorderGlow className="contact-details-glow">
             <div className="contact-details">
