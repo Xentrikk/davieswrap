@@ -1707,3 +1707,160 @@
   .hero-showcase-controls button,
   .hero-showcase-cinematic .hero-showcase-button{transition:none}
 }
+
+/* Scroll-controlled Davies marina intro — replaces the previous autoplay timeline. */
+.scroll-film-track{
+  height:305svh;
+  position:relative;
+  isolation:isolate;
+  background:#050606;
+}
+.scroll-film-track .scroll-film-stage.hero-showcase-cinematic{
+  position:sticky;
+  top:0;
+  left:0;
+  height:100svh;
+  min-height:0;
+  width:100%;
+  overflow:hidden;
+  background-color:#050606;
+}
+.scroll-film-stage .hero-showcase-video{
+  position:absolute;
+  inset:0;
+  height:100%;
+  width:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  pointer-events:none;
+}
+.scroll-film-hud{
+  position:absolute;
+  inset:0 0 auto;
+  z-index:5;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  padding:25px max(22px,4vw);
+  pointer-events:none;
+}
+.scroll-film-progress-wrap{
+  min-width:210px;
+  max-width:330px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  color:#f8eee6;
+  text-shadow:0 2px 8px rgba(0,0,0,.9);
+}
+.scroll-film-kicker{
+  flex:0 0 auto;
+  font:700 10px/1.1 var(--body);
+  letter-spacing:.16em;
+}
+.scroll-film-progress{
+  flex:1 1 96px;
+  height:2px;
+  min-width:72px;
+  background:rgba(255,255,255,.35);
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 0 12px rgba(0,0,0,.35);
+}
+.scroll-film-progress-fill{
+  display:block;
+  width:100%;
+  height:100%;
+  background:#ef7945;
+  box-shadow:0 0 12px #ef7945;
+  transform:scaleX(0);
+  transform-origin:left center;
+  will-change:transform;
+}
+.scroll-film-percentage{
+  min-width:35px;
+  text-align:right;
+  font:800 10px/1.1 var(--body);
+  font-variant-numeric:tabular-nums;
+}
+.scroll-film-skip{
+  flex-shrink:0;
+  display:inline-flex;
+  gap:9px;
+  align-items:center;
+  padding:10px 12px;
+  margin:-10px -12px 0 0;
+  color:#f6f0e8;
+  text-shadow:0 2px 8px rgba(0,0,0,.9);
+  font:800 10px/1.2 var(--body);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  pointer-events:auto;
+}
+.scroll-film-skip span{color:#f08b55;font-size:15px}
+.scroll-film-skip:hover,.scroll-film-skip:focus-visible{color:#f08b55}
+.scroll-film-stage .hero-showcase-actions{z-index:5}
+.scroll-film-prompt{
+  position:absolute;
+  z-index:3;
+  bottom:4%;
+  left:max(22px,4vw);
+  display:grid;
+  justify-items:center;
+  gap:12px;
+  color:#f0f1ef;
+  font:800 9px/1.2 var(--body);
+  letter-spacing:.18em;
+  text-shadow:0 2px 8px rgba(0,0,0,.8);
+  pointer-events:none;
+}
+.scroll-film-arrow{color:#e88955;font-size:24px;line-height:1}
+#after-intro{scroll-margin-top:0}
+@media(max-width:900px){
+  .scroll-film-prompt{bottom:3%}
+  .scroll-film-hud{padding:21px max(16px,3vw)}
+}
+@media(max-width:700px){
+  .scroll-film-track{height:305svh}
+  .scroll-film-track .scroll-film-stage.hero-showcase-cinematic{
+    position:sticky;
+    top:0;
+    height:100svh;
+    min-height:0;
+  }
+  .scroll-film-stage .hero-showcase-video{
+    position:absolute;
+    inset:0 0 auto;
+    width:100%;
+    height:auto;
+    aspect-ratio:1600/904;
+    object-fit:contain;
+  }
+  .scroll-film-hud{padding:12px 14px}
+  .scroll-film-kicker{font-size:9px;white-space:nowrap}
+  .scroll-film-progress-wrap{min-width:0;max-width:58%;gap:8px}
+  .scroll-film-progress{min-width:34px}
+  .scroll-film-percentage{min-width:29px;font-size:9px}
+  .scroll-film-skip{font-size:9px;padding:7px;margin:-7px -4px 0 0}
+  .scroll-film-prompt{bottom:0;left:auto;right:7vw;transform:translateY(-15px)}
+  .scroll-film-prompt span:first-child{display:none}
+  .scroll-film-arrow{font-size:17px}
+  .scroll-film-stage .hero-showcase-mobile-copy{top:calc(100vw * 904 / 1600 + 36px)}
+  .scroll-film-stage .hero-showcase-actions{bottom:24px}
+}
+@media(max-width:420px){
+  .scroll-film-stage .hero-showcase-mobile-copy h1{font-size:clamp(26px,6vw,36px)}
+  .scroll-film-stage .hero-showcase-actions{bottom:16px}
+  .scroll-film-hud{background:linear-gradient(180deg,rgba(0,0,0,.48),transparent)}
+}
+@media(prefers-reduced-motion:reduce){
+  .scroll-film-track{height:auto}
+  .scroll-film-track .scroll-film-stage.hero-showcase-cinematic{
+    position:relative;
+    min-height:calc(100svh - 86px);
+    height:calc(100svh - 86px);
+  }
+  .scroll-film-hud,.scroll-film-prompt{display:none}
+}

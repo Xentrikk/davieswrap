@@ -10,7 +10,7 @@ import { contactDetails, services } from '@/lib/business-data';
 export default function Home() {
   return <Shell><main>
     <AutomotiveHero />
-    <div className="kinetic-rail" aria-hidden="true"><div><span>COMMERCIAL & FLEET</span><i>◆</i><span>WINDOW FILM</span><i>◆</i><span>COLOUR CHANGE</span><i>◆</i><span>STEK PPF</span><i>◆</i><span>ARCHITECTURAL FILM</span><i>◆</i><span>MARINE</span><i>◆</i><span>20+ YEARS EXPERIENCE</span><i>◆</i></div></div>
+    <div id="after-intro" className="kinetic-rail" aria-hidden="true"><div><span>COMMERCIAL & FLEET</span><i>◆</i><span>WINDOW FILM</span><i>◆</i><span>COLOUR CHANGE</span><i>◆</i><span>STEK PPF</span><i>◆</i><span>ARCHITECTURAL FILM</span><i>◆</i><span>MARINE</span><i>◆</i><span>20+ YEARS EXPERIENCE</span><i>◆</i></div></div>
 
     <section className="manifesto section-pad">
       <div className="manifesto-index">01—04</div>
