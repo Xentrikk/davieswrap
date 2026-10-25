@@ -116,8 +116,26 @@ export default function Home() {
           <BorderGlow className="operator-image-glow">
             <div className="operator-image operator-image-pair">
               <div className="operator-number">20<span>+</span></div>
-              <Image src="/images/davies-marine-wrap.jpg" width={853} height={1280} alt="Chris Davies applying vinyl to a yacht" />
-              <Image src="/images/davies-architectural-detail.jpg" width={853} height={1280} alt="Chris Davies installing architectural film" />
+              <figure className="operator-working-frame operator-working-frame-first">
+                <Image
+                  src="/images/davies-orange-car-installation.webp"
+                  width={1280}
+                  height={720}
+                  sizes="(max-width: 700px) 88vw, (max-width: 1200px) 50vw, 45vw"
+                  alt="Chris carefully fitting burnt-orange vinyl film around the rear engine bay of a sports car"
+                />
+                <figcaption><span>01 / PRECISION FITTING</span><strong>THE DETAIL IS THE DIFFERENCE.</strong></figcaption>
+              </figure>
+              <figure className="operator-working-frame operator-working-frame-detail">
+                <Image
+                  src="/images/davies-orange-wrap-detail.webp"
+                  width={1280}
+                  height={720}
+                  sizes="(max-width: 700px) 88vw, (max-width: 1200px) 50vw, 45vw"
+                  alt="Chris hand-finishing orange wrap film with an applicator on a sports-car rear panel"
+                />
+                <figcaption><span>02 / HAND-FINISHED</span><strong>CRAFTED. NOT RUSHED.</strong></figcaption>
+              </figure>
             </div>
           </BorderGlow>
           <div className="operator-copy">
