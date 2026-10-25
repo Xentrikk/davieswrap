@@ -708,3 +708,59 @@
   .story-operator .operator-working-frame img{transition:none}
   .story-operator .operator-working-frame:hover img{transform:none}
 }
+
+/* October 2026 brand headline — geometric, confidently weighted type
+   supporting trust, certification and proven hands-on experience.
+   Russo One is already loaded as --headline; no extra fonts to download. */
+.site-frame-immersive .intro-statement-title{
+  font-family:var(--headline);
+  font-weight:400;
+  font-size:clamp(44px,5.55vw,99px);
+  line-height:1.02;
+  letter-spacing:-.045em;
+  max-width:1400px;
+  text-wrap:balance;
+}
+.site-frame-immersive .intro-statement-title .intro-word{
+  font-family:inherit;
+  font-weight:inherit;
+  white-space:nowrap;
+}
+.site-frame-immersive .intro-statement-title .intro-word-final{
+  color:#ff995b;
+  text-shadow:0 5px 25px rgba(0,0,0,.66),0 0 18px rgba(229,112,49,.12);
+}
+.site-frame-immersive .intro-statement-rule{
+  max-width:960px;
+  margin-top:clamp(16px,2vw,25px);
+}
+.site-frame-immersive .story-second-echo{
+  font-family:var(--headline);
+  font-weight:400;
+  font-size:clamp(21px,2.65vw,44px);
+  letter-spacing:-.035em;
+  line-height:1.08;
+}
+@media(max-width:700px){
+  .site-frame-immersive .intro-statement-title{
+    font-size:clamp(38px,9vw,62px);
+    line-height:1.04;
+    letter-spacing:-.048em;
+    text-wrap:initial;
+  }
+  .site-frame-immersive .intro-statement-rule{
+    margin-top:16px;
+  }
+  .site-frame-immersive .story-second-echo{
+    font-size:clamp(19px,5vw,32px);
+    line-height:1.1;
+  }
+}
+@media(max-width:420px){
+  .site-frame-immersive .intro-statement-title{
+    font-size:clamp(36px,9vw,45px);
+  }
+  .site-frame-immersive .story-second-echo{
+    font-size:clamp(19px,5vw,25px);
+  }
+}

@@ -5,7 +5,7 @@ Date: 25 October 2026.
 ## Scroll narrative
 - The approved 10-second marina-to-sunset film begins at the very top of the viewport. A translucent primary navigation sits over the film rather than occupying vertical space.
 - Scrolling (not autoplay) advances the film on desktop and the 100-frame canvas sequence on mobile, preserving bidirectional reverse scrolling.
-- The first headline, **NOT JUST WRAPPED.**, reveals as three individually timed words. It is fully visible on the final video frame.
+- The first headline, **TRUSTED. TRAINED. PROVEN.**, reveals as three individually timed statements, set in bold modern Russo One typography. It is fully visible on the final video frame.
 - Further scrolling introduces the next full-height, sticky chapter, **ENGINEERED TO LAST.** The text fill, key message, and credential counters reveal in stages tied to scroll progress.
 - The following chapters retain the genuine Instagram gallery, the six original services and day rates, Avery 800 history, Arlon Fleet & Restyling certifications, STEK PPF status, and booking/contact links.
 - Editorial transitions include a moving service ribbon, bold oversized chapter numbers, material-history comparison, staggered service cards, cropped typography and a strong final booking call.
