@@ -3,40 +3,19 @@
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { contactDetails } from '@/lib/business-data';
+import { DAVIES_DESKTOP_FRAMES, DAVIES_MOBILE_FRAMES } from '@/lib/davies-hd-frames';
 
-// Davies marina film, re-encoded with keyframes every four frames for accurate,
-// bi-directional scroll seeking. The video deliberately NEVER autoplays.
 const INTRO_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/aa38a087-410c-4285-9f7f-fa5718a3efad.mp4';
-const PHONE_VIDEO = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/84e8f177-a84f-4e85-b4bf-9d1df67d6644.mp4';
-const MOBILE_POSTER = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/f67dcda4-46b8-4e94-b7b5-03ef6231c0b6.jpg';
 const INTRO_POSTER = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg';
-
-// Mobile browsers (especially iOS Safari) can stall when seeking a paused MP4.
-// Each sheet holds 25 frames arranged in a 5×5 grid. Together they reproduce
-// the same approved 10-second film without the mobile video-decoder dependency.
-const MOBILE_FRAME_SHEETS = [
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/7149b856-b795-4389-9642-cfa64b862c12.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/8b8d75aa-7737-4642-995e-edcba4248fbd.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/d68e9b6c-a75c-4d1f-99cf-8b020ff8e7f9.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/2cd94058-ceb1-4d62-8e66-90418575c8e1.webp',
-  'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/54e18319-87df-4c9f-8eb4-b5f8f70448db.webp',
-];
-const FRAME_WIDTH = 480;
-const FRAME_HEIGHT = 854;
-const SHEET_COLUMNS = 5;
-const FRAMES_PER_SHEET = 20;
-const FRAME_COUNT = 100;
 const MOBILE_FRAME_QUERY = '(pointer: coarse), (max-width: 760px)';
-
-const clamp = (value: number, minimum: number, maximum: number) =>
-  Math.max(minimum, Math.min(maximum, value));
+const clamp = (value: number, low: number, high: number) => Math.max(low, Math.min(high, value));
 
 export function AutomotiveHero() {
   const trackRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
   const meterRef = useRef<HTMLSpanElement>(null);
   const percentageRef = useRef<HTMLOutputElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -46,176 +25,189 @@ export function AutomotiveHero() {
     const stage = stageRef.current;
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!track || !stage || !video || !canvas) return;
+    if (!track || !stage || !canvas || !video) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
 
-    let scheduled = 0;
-    let wantedTime = 0;
-    let lastPercent = -1;
-    let lastFrame = -1;
-    let framesStarted = false;
-
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const mobileMedia = window.matchMedia(MOBILE_FRAME_QUERY);
-    const imageSheets: HTMLImageElement[] = [];
+    const cache = new Map<string, HTMLImageElement>();
+    const queued = new Set<string>();
+    const waiting: Array<{ key: string; src: string }> = [];
+    let inFlight = 0;
+    let requestId = 0;
+    let desired = 0;
+    let renderedKey = '';
+    let lastPercent = -1;
+    let lastMobile = mobileMedia.matches;
+    // Match the canvas bitmap to the source before the first mobile frame loads.
+    canvas.width = lastMobile ? 1080 : 1912;
+    canvas.height = lastMobile ? 1920 : 1080;
+    let lastSelected = 0;
+    let destroyed = false;
 
     video.pause();
-    const enableKinetic = !motionPreference.matches;
-    track.classList.toggle('intro-kinetic-active', enableKinetic);
+    video.preload = 'none';
+    track.classList.toggle('intro-kinetic-active', !reduceMotion.matches);
+
+    function trimCache() {
+      if (cache.size <= 16) return;
+      const prefix = lastMobile ? 'm:' : 'd:';
+      const deletable = [...cache.keys()]
+        .filter(key => key !== renderedKey && key !== prefix + desired)
+        .sort((a, b) => {
+          const distance = (key: string) => key.startsWith(prefix)
+            ? Math.abs(Number(key.split(':')[1]) - desired) : 1000;
+          return distance(b) - distance(a);
+        });
+      for (const key of deletable) {
+        if (cache.size <= 13) break;
+        cache.delete(key);
+      }
+    }
 
     function requestUpdate() {
-      if (!scheduled) scheduled = window.requestAnimationFrame(update);
+      if (!requestId && !destroyed) requestId = window.requestAnimationFrame(update);
     }
 
-    function loadMobileFrames() {
-      if (framesStarted || !canvas) return;
-      framesStarted = true;
+    function enqueue(index: number, urgent = false) {
+      const items = lastMobile ? DAVIES_MOBILE_FRAMES : DAVIES_DESKTOP_FRAMES;
+      if (index < 0 || index >= items.length) return;
+      const key = (lastMobile ? 'm:' : 'd:') + index;
+      if (cache.has(key) || queued.has(key)) return;
+      queued.add(key);
+      const job = { key, src: items[index] };
+      if (urgent) waiting.unshift(job);
+      else waiting.push(job);
+      pump();
+    }
 
-      // A small, fixed-size canvas avoids MP4 seek failures on phones.
-      // Its poster background remains visible until the appropriate sheet loads.
-      const context = canvas.getContext('2d');
-      if (!context) return;
-
-      MOBILE_FRAME_SHEETS.forEach((source, sheetIndex) => {
-        const sheet = new Image();
-        sheet.decoding = 'async';
-        sheet.onload = () => {
-          if (sheetIndex === 0 || mobileMedia.matches) requestUpdate();
+    function pump() {
+      while (inFlight < 4 && waiting.length && !destroyed) {
+        const job = waiting.shift()!;
+        if (!queued.has(job.key)) continue;
+        inFlight++;
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => {
+          inFlight--;
+          queued.delete(job.key);
+          if (!destroyed) {
+            cache.set(job.key, img);
+            trimCache();
+            if (job.key === (lastMobile ? 'm:' : 'd:') + desired || !renderedKey) requestUpdate();
+            pump();
+          }
         };
-        sheet.onerror = () => {
-          // Preserve the supplied poster instead of leaving a blank video.
-          requestUpdate();
+        img.onerror = () => {
+          inFlight--;
+          queued.delete(job.key);
+          if (!destroyed) pump();
         };
-        imageSheets.push(sheet);
-        sheet.src = source;
-      });
+        img.src = job.src;
+      }
     }
 
-    function drawMobileFrame(progress: number) {
-      if (!canvas) return;
-      const frame = clamp(Math.round(progress * (FRAME_COUNT - 1)), 0, FRAME_COUNT - 1);
-      if (lastFrame === frame) return;
-
-      const sheetIndex = Math.floor(frame / FRAMES_PER_SHEET);
-      const sheet = imageSheets[sheetIndex];
-      if (!sheet || !sheet.complete || sheet.naturalWidth === 0) return;
-
-      const tileIndex = frame % FRAMES_PER_SHEET;
-      const sourceX = (tileIndex % SHEET_COLUMNS) * FRAME_WIDTH;
-      const sourceY = Math.floor(tileIndex / SHEET_COLUMNS) * FRAME_HEIGHT;
-      const context = canvas.getContext('2d');
-      if (!context) return;
-
-      context.drawImage(
-        sheet,
-        sourceX, sourceY, FRAME_WIDTH, FRAME_HEIGHT,
-        0, 0, FRAME_WIDTH, FRAME_HEIGHT,
-      );
-      lastFrame = frame;
-      canvas.dataset.frame = String(frame);
+    function preloadNear(index: number, direction: number) {
+      enqueue(index, true);
+      for (let offset = 1; offset <= 5; offset++) enqueue(index + direction * offset, offset <= 2);
+      for (let offset = 1; offset <= 3; offset++) enqueue(index - direction * offset);
+      if (waiting.length > 22) {
+        const prefix = lastMobile ? 'm:' : 'd:';
+        const near = waiting.filter(job =>
+          job.key.startsWith(prefix) && Math.abs(Number(job.key.split(':')[1]) - index) <= 9
+        );
+        waiting.length = 0;
+        waiting.push(...near);
+        for (const key of [...queued]) {
+          if (!cache.has(key) && !waiting.some(job => job.key === key) && key !== renderedKey) {
+            // Started requests will finish; the current target gets priority.
+            queued.delete(key);
+          }
+        }
+      }
     }
 
-    function seekToWantedTime() {
-      if (!video || mobileMedia.matches || motionPreference.matches || video.readyState < 1 || video.seeking) return;
-      if (Math.abs(video.currentTime - wantedTime) <= 0.045) return;
-      try { video.currentTime = wantedTime; } catch { /* Retry once the video is seekable. */ }
+    function draw(index: number) {
+      const key = (lastMobile ? 'm:' : 'd:') + index;
+      const image = cache.get(key);
+      if (!image || !canvas || !context || key === renderedKey) return;
+      try {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        renderedKey = key;
+        canvas.dataset.frame = String(index);
+        canvas.dataset.quality = 'native-full-hd';
+      } catch { /* Keep the previous decoded frame visible. */ }
     }
 
     function update() {
-      scheduled = 0;
-      if (!track || !video || !stage) return;
-
-      // The pinned stage uses a stable small viewport height (svh).
-      // iOS changes window.innerHeight as browser toolbars collapse, so use
-      // the stage's physical height to avoid jumps and reverse-scroll glitches.
+      requestId = 0;
+      if (!track || !stage || !canvas || destroyed) return;
+      const isMobile = mobileMedia.matches;
+      if (isMobile !== lastMobile) {
+        lastMobile = isMobile;
+        renderedKey = '';
+        canvas.width = isMobile ? 1080 : 1912;
+        canvas.height = isMobile ? 1920 : 1080;
+      }
       const distance = Math.max(1, track.offsetHeight - stage.offsetHeight);
-      const progress = motionPreference.matches
-        ? 0
-        : clamp(-track.getBoundingClientRect().top / distance, 0, 1);
+      const progress = reduceMotion.matches ? 0 :
+        clamp(-track.getBoundingClientRect().top / distance, 0, 1);
 
       if (meterRef.current) meterRef.current.style.transform = `scaleX(${progress})`;
-      if (lineRef.current && !motionPreference.matches) {
-        // Each trust-and-skill statement rises in sequence through the marina-to-sunset transition.
-        lineRef.current.style.setProperty('--intro-first', String(clamp((progress - 0.19) / 0.24, 0, 1)));
-        lineRef.current.style.setProperty('--intro-second', String(clamp((progress - 0.34) / 0.25, 0, 1)));
-        lineRef.current.style.setProperty('--intro-third', String(clamp((progress - 0.49) / 0.27, 0, 1)));
-        lineRef.current.style.setProperty('--intro-underline', String(clamp((progress - 0.56) / 0.35, 0, 1)));
-        lineRef.current.style.setProperty('--intro-eyebrow', String(clamp((progress - 0.09) / 0.20, 0, 1)));
+      if (lineRef.current && !reduceMotion.matches) {
+        const line = lineRef.current;
+        line.style.setProperty('--intro-first', String(clamp((progress - .19) / .24, 0, 1)));
+        line.style.setProperty('--intro-second', String(clamp((progress - .34) / .25, 0, 1)));
+        line.style.setProperty('--intro-third', String(clamp((progress - .49) / .27, 0, 1)));
+        line.style.setProperty('--intro-underline', String(clamp((progress - .56) / .35, 0, 1)));
+        line.style.setProperty('--intro-eyebrow', String(clamp((progress - .09) / .20, 0, 1)));
       }
       const percent = Math.round(progress * 100);
       if (percent !== lastPercent) {
         lastPercent = percent;
-        if (percentageRef.current) percentageRef.current.textContent = `${percent}%`;
+        if (percentageRef.current) percentageRef.current.textContent = percent + '%';
         progressRef.current?.setAttribute('aria-valuenow', String(percent));
       }
-
-      if (mobileMedia.matches) {
-        if (!motionPreference.matches) loadMobileFrames();
-        drawMobileFrame(progress);
-      } else if (Number.isFinite(video.duration) && video.duration > 0) {
-        wantedTime = progress * Math.max(0, video.duration - 0.018);
-        seekToWantedTime();
-      }
-    }
-
-    function onMetadataReady() {
-      video.pause();
-      requestUpdate();
-    }
-
-    function onSeeked() {
-      if (!mobileMedia.matches && Math.abs(video.currentTime - wantedTime) > 0.075) requestUpdate();
-    }
-
-    function onPlay() {
-      video.pause();
-      requestUpdate();
+      const count = isMobile ? DAVIES_MOBILE_FRAMES.length : DAVIES_DESKTOP_FRAMES.length;
+      const next = Math.round(progress * (count - 1));
+      const direction = next >= lastSelected ? 1 : -1;
+      lastSelected = next;
+      desired = next;
+      preloadNear(next, direction);
+      draw(next);
     }
 
     function onModeChange() {
       video.pause();
-      if (mobileMedia.matches) {
-        video.preload = 'none';
-        if (!motionPreference.matches) loadMobileFrames();
-      } else {
-        video.preload = 'auto';
-        video.load();
-      }
+      track?.classList.toggle('intro-kinetic-active', !reduceMotion.matches);
       requestUpdate();
     }
 
-    function onMotionChange() {
-      video.pause();
-      requestUpdate();
-    }
-
-    video.addEventListener('loadedmetadata', onMetadataReady);
-    video.addEventListener('seeked', onSeeked);
-    video.addEventListener('play', onPlay);
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate, { passive: true });
-    window.addEventListener('pageshow', requestUpdate);
+    const onScroll = () => requestUpdate();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('pageshow', onScroll);
     mobileMedia.addEventListener('change', onModeChange);
-    motionPreference.addEventListener('change', onMotionChange);
-
-    onModeChange();
+    reduceMotion.addEventListener('change', onModeChange);
+    enqueue(0, true);
+    enqueue(1, true);
+    enqueue(2);
+    requestUpdate();
 
     return () => {
-      if (scheduled) window.cancelAnimationFrame(scheduled);
-      video.removeEventListener('loadedmetadata', onMetadataReady);
-      video.removeEventListener('seeked', onSeeked);
-      video.removeEventListener('play', onPlay);
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
-      window.removeEventListener('pageshow', requestUpdate);
+      destroyed = true;
+      if (requestId) cancelAnimationFrame(requestId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('pageshow', onScroll);
       mobileMedia.removeEventListener('change', onModeChange);
-      motionPreference.removeEventListener('change', onMotionChange);
+      reduceMotion.removeEventListener('change', onModeChange);
       track.classList.remove('intro-kinetic-active');
-      for (const image of imageSheets) {
-        image.onload = null;
-        image.onerror = null;
-      }
+      waiting.length = 0;
+      cache.clear();
     };
-
   }, []);
 
   return (
@@ -241,10 +233,9 @@ export function AutomotiveHero() {
         <canvas
           ref={canvasRef}
           className="hero-showcase-frames"
-          width={FRAME_WIDTH}
-          height={FRAME_HEIGHT}
+          width={1912}
+          height={1080}
           aria-hidden="true"
-          style={{ backgroundImage: `url("${MOBILE_POSTER}")` }}
         />
 
         <div className="scroll-film-hud">

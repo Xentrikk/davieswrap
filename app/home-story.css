@@ -927,3 +927,27 @@
 @media(prefers-reduced-motion:reduce){
   .scroll-film-track .scroll-film-stage .hero-showcase-frames{display:block}
 }
+
+/* Native-resolution approved Davies scroll film. Overrides old 480px mobile
+   sprite and 1600px desktop video renderers without changing the page design. */
+.scroll-film-track .scroll-film-stage .hero-showcase-video{
+  display:none !important;
+}
+.scroll-film-track .scroll-film-stage .hero-showcase-frames{
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  aspect-ratio:auto !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg");
+  background-size:cover;
+  background-position:center;
+}
+@media(max-width:760px),(pointer:coarse){
+  .scroll-film-track .scroll-film-stage .hero-showcase-frames{
+    background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/f67dcda4-46b8-4e94-b7b5-03ef6231c0b6.jpg");
+  }
+}
