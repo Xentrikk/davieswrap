@@ -537,3 +537,59 @@
   .intro-statement-title{font-size:clamp(42px,11vw,57px)}
   .story-second-heading{font-size:clamp(40px,11.5vw,50px)}
 }
+
+/* Services and Contact: lively editorial connective tissue between chapters. */
+.page-proof-ribbon{
+  display:block;
+  overflow:hidden;
+  position:relative;
+  height:65px;
+  background:linear-gradient(93deg,#853817,#bd5b2c 46%,#95391b);
+  color:#fff2e6;
+  border-top:1px solid rgba(255,209,161,.36);
+  border-bottom:1px solid rgba(22,8,3,.65);
+  box-shadow:inset 0 1px rgba(255,255,255,.1);
+}
+.page-proof-ribbon-inner{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  gap:clamp(18px,2.5vw,42px);
+  width:max-content;
+  min-width:110%;
+  height:100%;
+  padding:0 5vw;
+  animation:page-proof-shift 28s linear infinite alternate;
+}
+.page-proof-ribbon-inner span{
+  white-space:nowrap;
+  font:800 clamp(9px,.82vw,12px)/1.2 var(--body);
+  letter-spacing:.14em;
+}
+.page-proof-ribbon-inner b{
+  font-family:var(--racing);
+  font-size:clamp(18px,1.4vw,24px);
+  font-weight:400;
+  letter-spacing:-.015em;
+  vertical-align:middle;
+  margin-right:5px;
+}
+.page-proof-ribbon-inner i{
+  color:#ffbd91;
+  font-style:normal;
+  font-size:19px;
+  opacity:.9;
+}
+@keyframes page-proof-shift{
+  to{transform:translateX(-5%)}
+}
+@media(max-width:700px){
+  .page-proof-ribbon{height:57px}
+  .page-proof-ribbon-inner{gap:24px;padding:0 22px}
+  .page-proof-ribbon-inner span{font-size:9px}
+  .page-proof-ribbon-inner b{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .page-proof-ribbon-inner{animation:none}
+}
