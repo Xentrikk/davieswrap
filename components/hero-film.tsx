@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { contactDetails } from '@/lib/business-data';
 
-// The marina film plays once, start to finish, as soon as the visitor starts
-// scrolling - real video playback, so it's smooth from the first gesture
-// instead of chasing scroll position frame by frame. It then rests on its
-// final sunset frame, which stays behind the next chapter as its background.
+// The marina film plays once, start to finish, as soon as the page loads -
+// real video playback, so it's smooth from the first moment instead of
+// chasing scroll position frame by frame. It then rests on its final sunset
+// frame, which stays behind the next chapter as its background.
 const CDN = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/';
 const FILMS = {
   // 1600×904, 10s
@@ -24,7 +24,7 @@ const FILMS = {
   },
 };
 const PORTRAIT_QUERY = '(orientation: portrait) and (max-width: 900px)';
-// How long a first scroll waits for enough of the film to play smoothly.
+// How long the page waits for enough of the film to play smoothly.
 const PATIENCE_MS = 6000;
 
 // Headline beats, as fractions of the film's running time.
@@ -74,39 +74,20 @@ export function HeroFilm({ children }: { children?: ReactNode }) {
     // or asked for less motion: go straight to the final frame.
     if (reduceMotion || window.location.hash || window.scrollY > window.innerHeight * 0.4) {
       finish();
-    } else {
-      video.src = film.video;
-      video.load();
-      // iOS ignores preload until a video has played, so start it and stop it
-      // straight away to get the download going before the first scroll.
-      video
-        .play()
-        .then(() => {
-          if (state === 'ready') {
-            video.pause();
-            video.currentTime = 0;
-          }
-        })
-        .catch(() => {});
     }
 
-    // Only roll once the browser expects to play through without stalling -
-    // a stuttering film is worse than none. If that takes too long (slow
-    // connection), settle on the final frame instead.
+    // Autoplay straight away, muted (the browser buffers before it starts).
+    // If it hasn't started rolling within PATIENCE_MS (slow connection), or
+    // autoplay is refused (e.g. iOS Low Power Mode), settle on the final frame.
     let giveUp = 0;
-    const roll = () => {
-      if (state !== 'playing') return;
-      window.clearTimeout(giveUp);
-      // Autoplay can be refused (e.g. iOS Low Power Mode) - fall back to the still.
-      video.play().catch(finish);
-    };
-    const start = () => {
-      if (state !== 'ready') return;
+    const rolling = () => window.clearTimeout(giveUp);
+    if (state === 'ready') {
       setState('playing');
-      if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) return roll();
-      video.addEventListener('canplaythrough', roll, { once: true });
+      video.src = film.video;
+      video.addEventListener('playing', rolling, { once: true });
       giveUp = window.setTimeout(finish, PATIENCE_MS);
-    };
+      video.play().catch(finish);
+    }
 
     const onTime = () => {
       if (!Number.isFinite(video.duration) || !video.duration) return;
@@ -125,35 +106,23 @@ export function HeroFilm({ children }: { children?: ReactNode }) {
     };
 
     const onScroll = () => {
-      if (window.scrollY > 2) start();
       if (!frame) frame = requestAnimationFrame(paintShade);
-    };
-    // Scroll intent before the page actually moves (e.g. a trackpad nudge at the top).
-    const onIntent = () => start();
-    const onKey = (e: KeyboardEvent) => {
-      if ([' ', 'ArrowDown', 'PageDown', 'End'].includes(e.key)) start();
     };
 
     video.addEventListener('timeupdate', onTime);
     video.addEventListener('ended', finish);
     video.addEventListener('error', finish);
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('wheel', onIntent, { passive: true });
-    window.addEventListener('touchmove', onIntent, { passive: true });
-    window.addEventListener('keydown', onKey);
     paintShade();
 
     return () => {
       if (frame) cancelAnimationFrame(frame);
       window.clearTimeout(giveUp);
-      video.removeEventListener('canplaythrough', roll);
+      video.removeEventListener('playing', rolling);
       video.removeEventListener('timeupdate', onTime);
       video.removeEventListener('ended', finish);
       video.removeEventListener('error', finish);
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('wheel', onIntent);
-      window.removeEventListener('touchmove', onIntent);
-      window.removeEventListener('keydown', onKey);
     };
   }, []);
 
@@ -202,7 +171,7 @@ export function HeroFilm({ children }: { children?: ReactNode }) {
         </div>
 
         <div className="film-cue" aria-hidden="true">
-          <span>SCROLL TO THE REVEAL</span>
+          <span>SCROLL TO EXPLORE</span>
           <span className="film-cue-arrow">↓</span>
         </div>
       </section>

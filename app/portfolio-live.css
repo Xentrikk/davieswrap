@@ -674,14 +674,14 @@
 
 /* Chris's supplied brand assets. */
 .brand{height:100%;min-width:190px;display:flex;align-items:center}
-.brand-logo-crop{display:block;position:relative;width:210px;height:66px;overflow:hidden}
-.brand-logo-crop img{display:block;width:100%;height:auto;transform:translateY(0);filter:contrast(1.04) saturate(.96)}
+/* Transparent logo, the same treatment as the booking page header. */
+.brand-logo{display:block;width:clamp(155px,17vw,250px);height:auto;max-height:70px;object-fit:contain;object-position:left center;filter:drop-shadow(0 3px 10px rgba(0,0,0,.42))}
 .services-intro-image img{object-position:58% center}
 .contact-intro-image img{object-position:52% center}
 
 @media(max-width:600px){
   .brand{min-width:0}
-  .brand-logo-crop{width:168px;height:55px}
+  .brand-logo{width:clamp(130px,43vw,190px)}
 }
 
 /* Header blend, visible gooey navigation and tighter internal-page heroes. */
@@ -690,7 +690,6 @@
   border-bottom-color:rgba(255,255,255,.1);
   box-shadow:0 14px 40px rgba(0,0,0,.34);
 }
-.brand-logo-crop{background:#000}
 
 .gooey-particles{filter:url('#gooey-nav-filter')}
 .gooey-particles i{
@@ -1119,8 +1118,6 @@
 }
 
 /* 2026 rate-card content and supplied brand artwork. */
-.brand-logo-crop{width:226px;height:68px;background:#000}
-.brand-logo-crop img{width:100%;height:100%;object-fit:contain;object-position:center;transform:none;filter:none}
 
 .hero-brand-static{
   display:grid;
@@ -1209,7 +1206,6 @@
 }
 
 @media(max-width:520px){
-  .brand-logo-crop{width:174px;height:58px}
   .hero-brand-static{min-height:760px}
   .hero-static-copy{padding-top:230px}
   .hero-static-visual img{object-position:54% top}

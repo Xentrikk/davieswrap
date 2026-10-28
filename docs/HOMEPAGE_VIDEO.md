@@ -1,13 +1,13 @@
 # Davies homepage: play-once film hero
 
-**Main site:** `www.cdavies.work`. The approved marina film (workshop, wrapped vehicles and yacht, daylight to sunset) plays once, at normal speed, as soon as the visitor starts scrolling. It then rests on its final sunset frame, which stays behind the **ENGINEERED TO LAST.** chapter as that chapter scrolls up over it.
+**Main site:** `www.cdavies.work`. The approved marina film (workshop, wrapped vehicles and yacht, daylight to sunset) plays once, at normal speed, as soon as the page loads (like the booking page at app.cdavies.work/book). It then rests on its final sunset frame, which stays behind the **ENGINEERED TO LAST.** chapter as that chapter scrolls up over it.
 
 This replaced the scroll-scrubbed version (frames chasing scroll position), which was laggy on a first visit because each frame had to download before it could be shown.
 
 ## How it works (`components/hero-film.tsx`, `app/hero-film.css`)
 - The film is picked once per visit by orientation: the 1600×904 widescreen film, or the 1080×1920 portrait film on phones held upright.
-- The video starts downloading on page load, showing its poster. iOS ignores `preload`, so it's briefly played and paused to start the download.
-- On the first scroll, wheel, swipe or scroll key, the film plays straight through. It only rolls once the browser expects to play without stalling; if that takes more than 6 seconds (slow connection), it settles on the final frame instead.
+- The film autoplays muted on page load, showing its poster until it starts. If it hasn't started within 6 seconds (slow connection), it settles on the final frame instead.
+- The "SCROLL TO EXPLORE" cue appears once the film has finished.
 - **TRUSTED. TRAINED. PROVEN.** builds word by word in time with the film; the orange rule draws in after.
 - At the end, the matching final-frame still crossfades in, and the backdrop darkens as the page scrolls (one CSS variable, `--film-shade`).
 - The backdrop is `position: sticky` inside `.film-scope`, which wraps the hero and the second chapter, so it stops at the end of that chapter.
@@ -21,3 +21,6 @@ This replaced the scroll-scrubbed version (frames chasing scroll position), whic
 - Both films are large for mobile data; re-encoding them to ~2–4 Mbps would make the first play start sooner. Consider moving them to first-party hosting for long-term independence.
 
 Book: https://app.cdavies.work/book. The booking app at `app.cdavies.work` is a separate project.
+
+## Logo
+The header uses `public/images/davies-logo-transparent.png` (900×230, real transparency), the same file as the booking page header, so there's no black box behind it on any page.

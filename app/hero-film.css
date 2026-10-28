@@ -1,5 +1,5 @@
 /* Homepage film hero (components/hero-film.tsx).
-   The film plays once on the first scroll, rests on its final frame, and
+   The film plays once on page load, rests on its final frame, and
    that frame stays behind the "ENGINEERED TO LAST." chapter as it scrolls
    over. Only opacity/transform animate, so it stays smooth on phones. */
 .film-scope{position:relative;isolation:isolate;background:#050606}
@@ -107,7 +107,8 @@
 }
 .film-cue-arrow{color:#e88955;font-size:24px;line-height:1;animation:film-cue 1.8s ease-in-out infinite}
 @keyframes film-cue{50%{transform:translateY(6px)}}
-.film-scope:not([data-film="ready"]) .film-cue{opacity:0}
+/* The scroll cue appears once the film has settled on its final frame. */
+.film-scope:not([data-film="done"]) .film-cue{opacity:0}
 
 /* The next chapter scrolls up over the resting frame instead of a flat
    background, so the sunset glows through it. */

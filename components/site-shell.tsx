@@ -14,9 +14,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="brand" href="/" aria-label="Davies Wrap Specialist home">
-        <span className="brand-logo-crop">
-          <Image src="/images/davies-logo-300dpi.png" width={1659} height={948} alt="Davies Wrap Specialist" priority />
-        </span>
+        <Image className="brand-logo" src="/images/davies-logo-transparent.png" width={900} height={230} alt="Davies Wrap Specialist" priority />
       </Link>
       <GooeyNav items={nav} />
       <a className="header-cta" href={contactDetails.bookingHref}><span>Book</span><b>↗</b></a>
