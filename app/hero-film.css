@@ -135,3 +135,13 @@
 @media(prefers-reduced-motion:reduce){
   .film-word,.film-rule,.film-still,.film-video,.film-cue-arrow{transition:none;animation:none}
 }
+
+/* "ENGINEERED TO LAST." shares the hero headline's font. Russo One runs
+   wider than the racing face, so it's sized to fit a line per word. */
+.film-scope .story-second-heading{
+  font-family:var(--font-headline),Impact,"Arial Black",sans-serif;
+  font-size:clamp(40px,9.6vw,170px);line-height:.95;letter-spacing:-.045em;
+}
+@media(max-width:700px){
+  .film-scope .story-second-heading{font-size:clamp(40px,13vw,72px)}
+}
