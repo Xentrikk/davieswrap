@@ -9,9 +9,12 @@
   height:100svh;margin-bottom:-100svh;
   overflow:hidden;pointer-events:none;
 }
+/* Drawn 18% wider than the screen and anchored left, so the right-hand edge
+   of the film (the technician by the yacht) falls off-screen. Applies to the
+   poster, the video and the final still alike, so they stay lined up. */
 .film-video,.film-still{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center;display:block;
+  position:absolute;top:0;left:0;width:118%;max-width:none;height:100%;
+  object-fit:cover;object-position:left center;display:block;
 }
 .film-still{opacity:0;transition:opacity .9s ease}
 .film-video{transition:opacity .9s ease}
