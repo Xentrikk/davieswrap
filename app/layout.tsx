@@ -4,6 +4,7 @@ import './globals.css';
 import './portfolio-live.css';
 import './home-story.css';
 import './hero-film.css';
+import './portfolio-gallery.css';
 
 const body = Manrope({ variable: '--font-body', subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 const racing = Racing_Sans_One({ variable: '--font-display', subsets: ['latin'], weight: '400' });

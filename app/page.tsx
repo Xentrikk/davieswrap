@@ -74,7 +74,7 @@ export default function Home() {
           </div>
           <PortfolioCarousel />
           <div className="portfolio-footer" data-kinetic="rise">
-            <span>Selected portfolio / Use the arrows or keyboard</span>
+            <span>Selected portfolio / Swipe or use the arrows</span>
             <a href="https://www.instagram.com/thewrapspecialist" target="_blank" rel="noreferrer">More real projects on Instagram <b>↗</b></a>
           </div>
         </section>

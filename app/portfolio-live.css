@@ -1,7 +1,8 @@
 .hero-image-frame.hero-image-stock{width:min(61%,520px);aspect-ratio:4/5}.hero-image-stock img{object-fit:cover}.hero-image-stock:after{background:linear-gradient(105deg,transparent 44%,rgba(255,255,255,.1) 50%,transparent 56%)}
-.work-card-previous,.work-card-next{z-index:1;opacity:.24;filter:saturate(.35);pointer-events:none}.work-card-previous{transform:translateX(calc(-50% - 430px)) translateZ(-180px) rotateY(35deg) scale(.78)}.work-card-next{transform:translateX(calc(-50% + 430px)) translateZ(-180px) rotateY(-35deg) scale(.78)}.work-card-hidden{z-index:0;opacity:0;pointer-events:none;transform:translateX(-50%) translateZ(-320px) scale(.58)}
+
 @media(max-width:900px){.hero-image-frame.hero-image-stock{width:min(62%,520px)}}
-@media(max-width:600px){.hero-image-frame.hero-image-stock{width:72%}.work-card-previous,.work-card-next,.work-card-hidden{display:none}}
+@media(max-width:600px){.hero-image-frame.hero-image-stock{width:72%}
+}
 
 /* Final material layer: kept here so it sits above the shared section colours. */
 .portfolio,
@@ -56,10 +57,6 @@
     linear-gradient(145deg,rgba(53,60,57,.96),rgba(25,30,28,.98));
 }
 
-.work-card{
-  background:linear-gradient(145deg,rgba(65,74,70,.72),rgba(13,17,15,.94));
-  border-color:rgba(221,229,225,.28);
-}
 
 .site-footer{
   background-image:
@@ -232,18 +229,6 @@
 .gooey-particles i[data-tone='2']{--particle-color:#9f491f}
 @keyframes gooey-burst{0%{opacity:0;transform:translate(0,0) scale(.2)}28%{opacity:.9}100%{opacity:0;transform:translate(var(--particle-x),var(--particle-y)) scale(0)}}
 
-/* The active work image behaves like a sheet of floating architectural glass. */
-.work-card{overflow:visible;border-radius:12px;background:linear-gradient(145deg,rgba(107,118,113,.35),rgba(9,12,11,.86));border-color:rgba(220,226,222,.3);box-shadow:0 58px 135px rgba(0,0,0,.62),0 0 72px rgba(193,205,199,.08),inset 0 1px rgba(255,255,255,.17);backdrop-filter:blur(24px) saturate(1.12)}
-.work-card-top,.work-card-bottom{background:linear-gradient(90deg,rgba(201,208,204,.055),rgba(9,12,11,.18));backdrop-filter:blur(18px)}
-.work-card-top{border-radius:12px 12px 0 0}
-.work-card-bottom{border-radius:0 0 12px 12px}
-.tilted-card{position:relative;min-height:0;height:100%;perspective:1100px;isolation:isolate}
-.tilted-card-surface{position:relative;width:100%;height:100%;will-change:transform;filter:drop-shadow(0 28px 28px rgba(0,0,0,.42))}
-.tilted-card .work-image{width:100%;height:100%;border:1px solid rgba(231,236,233,.16);box-shadow:inset 0 1px rgba(255,255,255,.13);overflow:hidden;transform:translateZ(0)}
-.tilted-card-reflection{position:absolute;z-index:3;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 18%,rgba(255,255,255,.11) 42%,transparent 58%);mix-blend-mode:screen;transform:translateZ(24px);opacity:.48}
-.tilted-card-caption{position:absolute;z-index:8;left:0;top:0;padding:7px 10px;border:1px solid rgba(255,255,255,.25);border-radius:6px;background:rgba(213,218,215,.9);color:#171b19;font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;box-shadow:0 12px 28px rgba(0,0,0,.35)}
-.tilted-card:hover .tilted-card-caption{opacity:1}
-.work-card-active{animation:premium-float 5.8s ease-in-out infinite}
 @keyframes premium-float{0%,100%{transform:translateX(-50%) translateY(0) translateZ(80px)}50%{transform:translateX(-50%) translateY(-9px) translateZ(92px)}}
 
 /* Individual service cards keep a practical rectangular silhouette. */
@@ -272,17 +257,16 @@
 @media(max-width:900px){
   .gooey-nav{display:none}
   .rate-grid{gap:16px}
-  .work-card-active{animation:none}
+
 }
 
 @media(hover:none){
-  .tilted-card-caption{display:none}
   .border-glow::before{opacity:.24}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .gooey-particles i,.work-card-active{animation:none}
-  .border-glow,.tilted-card-surface{transition:none}
+  .gooey-particles i{animation:none}
+  .border-glow{transition:none}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -648,14 +632,6 @@
 
 .portfolio>*,.service-bay>*,.rates>*,.page-intro.visual-intro>*,.cta-strip>*,.radius-section>*,.site-footer>*{position:relative;z-index:1}
 
-.work-card{
-  overflow:visible;
-  border-radius:12px;
-  background:linear-gradient(145deg,rgba(107,118,113,.35),rgba(9,12,11,.86));
-  border-color:rgba(220,226,222,.3);
-  box-shadow:0 58px 135px rgba(0,0,0,.62),0 0 72px rgba(193,205,199,.08),inset 0 1px rgba(255,255,255,.17);
-  backdrop-filter:blur(24px) saturate(1.12);
-}
 
 .rate-grid,.service-specs{gap:22px;background:transparent;border:0;box-shadow:none;overflow:visible}
 .rate-card,.service-specs article{height:100%;border:0;border-radius:inherit;background:radial-gradient(circle at 86% 10%,rgba(211,219,215,.075),transparent 31%),linear-gradient(145deg,rgba(55,63,59,.9),rgba(18,22,20,.96))}
@@ -801,18 +777,12 @@
 .portfolio{padding-top:72px;padding-bottom:66px}
 .portfolio .section-heading{margin-bottom:40px}
 .portfolio .section-heading h2{font-size:clamp(52px,5.8vw,88px)}
-.work-stage{height:clamp(420px,40vw,540px)}
-.work-card{width:min(620px,60vw);grid-template-rows:42px minmax(0,1fr) 68px}
-.work-card-previous{transform:translateX(calc(-50% - 335px)) translateZ(-190px) rotateY(35deg) scale(.72)}
-.work-card-next{transform:translateX(calc(-50% + 335px)) translateZ(-190px) rotateY(-35deg) scale(.72)}
-.work-controls{margin-top:18px}
-.work-controls button{width:44px;height:44px}
+
 .portfolio-footer{margin-top:28px}
 
 @media(max-width:700px){
   .portfolio{padding-top:66px;padding-bottom:58px}
-  .work-stage{height:112vw;min-height:400px;max-height:520px}
-  .work-card{width:90vw;grid-template-rows:40px minmax(0,1fr) 78px}
+
 }
 
 /* Contact project brief — high-contrast, premium and action-led. */
@@ -863,12 +833,6 @@
   .contact-actions strong{font-size:15px;overflow-wrap:anywhere}
 }
 
-/* Crisp gallery rendering: no continuous transformed raster layer at rest. */
-.work-stage{animation:none}
-.work-card-active{animation:none;transform:translateX(-50%)}
-.tilted-card-surface{filter:none;will-change:auto}
-.tilted-card:hover .tilted-card-surface{will-change:transform}
-.work-image img{image-rendering:auto;filter:none;transform:none;backface-visibility:hidden}
 
 /* Dark photographic manifesto with strong, legible contrast. */
 .manifesto{
@@ -912,21 +876,6 @@
   .manifesto>p{max-width:620px}
 }
 
-/* The complete active portfolio card tilts as one glass object. */
-.work-stage>.tilted-card{
-  position:absolute;
-  z-index:2;
-  top:0;
-  left:calc(50% - min(310px,30vw));
-  width:min(620px,60vw);
-  height:100%;
-  transform:none;
-}
-.work-stage>.tilted-card .tilted-card-surface{height:100%}
-.work-stage>.tilted-card .work-card{position:relative;top:auto;left:auto;width:100%;height:100%;transform:none}
-.work-stage>.tilted-card .work-card-active{transform:none}
-.work-stage>.tilted-card .work-image{width:auto;height:auto}
-.work-stage>.tilted-card .tilted-card-reflection{border-radius:12px}
 
 /* Every former light-grey editorial section now uses the same atmospheric graphite family. */
 .operator,.details,.contact-project-section{
@@ -963,9 +912,6 @@
 .detail-columns>div{padding:28px;border:1px solid rgba(221,227,223,.12);border-radius:12px;background:linear-gradient(145deg,rgba(88,99,93,.16),rgba(8,11,9,.22));box-shadow:0 24px 58px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.05)}
 .detail-columns>div::before{background:#a5532d;box-shadow:0 0 20px rgba(165,83,45,.55)}
 
-@media(max-width:700px){
-  .work-stage>.tilted-card{left:5vw;width:90vw}
-}
 
 /* Phase checkpoint refinement: richer non-carousel cards and a more tactile nav click. */
 .gooey-nav li.is-bursting a{
@@ -1303,35 +1249,6 @@
 
 .portfolio#instagram-work{scroll-margin-top:24px}
 
-
-.work-card-top>span:first-child{
-  display:grid;
-  place-items:center;
-  min-width:34px;
-  height:25px;
-  margin-left:-7px;
-  color:#fff;
-  border-radius:4px;
-  background:linear-gradient(135deg,#8f351d,#cf6635);
-  box-shadow:0 0 22px rgba(197,91,45,.34);
-  font:400 13px/1 var(--racing);
-  letter-spacing:.04em;
-}
-.work-card-bottom>a{
-  display:inline-flex;
-  align-items:center;
-  min-height:36px;
-  padding:0 13px;
-  color:#f5f1e9;
-  border:1px solid rgba(196,89,43,.78);
-  border-radius:5px;
-  background:rgba(165,83,45,.16);
-  box-shadow:0 0 20px rgba(165,83,45,.1);
-  font-size:9px;
-  font-weight:800;
-  transition:background .2s ease,border-color .2s ease,transform .2s ease;
-}
-.work-card-bottom>a:hover,.work-card-bottom>a:focus-visible{transform:translateY(-2px);border-color:#d76f3d;background:#a5532d;outline:none}
 .portfolio-footer>a{
   display:inline-flex;
   align-items:center;
