@@ -9,72 +9,7 @@
 }
 .site-frame-immersive>.site-header .brand-logo-crop{background:transparent}
 .davies-scroll-story{position:relative;overflow:clip}
-.site-frame-immersive .scroll-film-track{margin-top:0}
-.site-frame-immersive .scroll-film-stage{isolation:isolate}
-.site-frame-immersive .scroll-film-stage::after{
-  background:linear-gradient(180deg,rgba(0,0,0,.32),rgba(0,0,0,.01) 27%,rgba(0,0,0,.2) 55%,rgba(0,0,0,.79) 100%);
-}
 
-/* The headline builds, word by word, WHILE the vehicle/marina scene evolves. */
-.intro-statement{
-  position:absolute;
-  z-index:5;
-  bottom:24%;
-  left:6vw;right:5vw;
-  max-width:1450px;
-  color:#f7f3ed;
-  pointer-events:none;
-  filter:drop-shadow(0 10px 24px rgba(0,0,0,.48));
-}
-.intro-statement-kicker{
-  display:flex;align-items:center;gap:12px;
-  margin:0 0 clamp(18px,2vw,33px);
-  color:#f5ad86;
-  font:800 clamp(9px,.85vw,12px)/1.2 var(--body);
-  letter-spacing:.2em;text-transform:uppercase;
-}
-.intro-kicker-dash{
-  width:27px;height:2px;display:block;flex:0 0 auto;
-  background:#f1854d;box-shadow:0 0 14px rgba(241,133,77,.7);
-}
-.intro-statement-title{
-  margin:0;
-  font:400 clamp(54px,8.1vw,154px)/.89 var(--racing);
-  letter-spacing:-.035em;
-  text-transform:uppercase;
-  color:#f7f3ed;white-space:normal;max-width:1350px;
-}
-.intro-statement-title .intro-word{display:inline-block;white-space:nowrap;vertical-align:baseline}
-.intro-word-final{color:#fff;text-shadow:0 3px 22px rgba(0,0,0,.62)}
-.intro-statement-rule{
-  display:block;height:3px;width:100%;max-width:750px;margin-top:24px;
-  background:linear-gradient(90deg,#f1854d,#aa421f 65%,transparent);
-  box-shadow:0 0 30px rgba(242,115,58,.35);transform-origin:left;
-}
-.intro-kinetic-active .intro-statement-kicker{
-  opacity:var(--intro-eyebrow,0);
-  transform:translateY(calc((1 - var(--intro-eyebrow,0)) * 20px));
-  filter:blur(calc((1 - var(--intro-eyebrow,0)) * 7px));
-}
-.intro-kinetic-active .intro-statement-title .intro-word{
-  opacity:var(--intro-first,0);
-  transform:translate3d(0,calc((1 - var(--intro-first,0)) * 45px),0) skewY(calc((1 - var(--intro-first,0)) * 7deg));
-  filter:blur(calc((1 - var(--intro-first,0)) * 10px));
-  will-change:transform,opacity,filter;
-}
-.intro-kinetic-active .intro-statement-title .intro-word:nth-child(2){
-  opacity:var(--intro-second,0);
-  transform:translate3d(0,calc((1 - var(--intro-second,0)) * 50px),0) skewY(calc((1 - var(--intro-second,0)) * -6deg));
-  filter:blur(calc((1 - var(--intro-second,0)) * 11px));
-}
-.intro-kinetic-active .intro-statement-title .intro-word:nth-child(3){
-  opacity:var(--intro-third,0);
-  transform:translate3d(0,calc((1 - var(--intro-third,0)) * 58px),0) skewY(calc((1 - var(--intro-third,0)) * 5deg));
-  filter:blur(calc((1 - var(--intro-third,0)) * 11px));
-}
-.intro-kinetic-active .intro-statement-rule{
-  transform:scaleX(var(--intro-underline,0));opacity:var(--intro-underline,0);
-}
 
 /* "ENGINEERED TO LAST." — second pinned, scroll-scrubbed chapter. */
 .story-second-line{
@@ -326,7 +261,6 @@
 }
 
 @media(max-width:1100px){
-  .intro-statement-title{font-size:clamp(49px,8vw,100px)}
   .story-second-heading{font-size:clamp(90px,13vw,165px)}
   .story-last-call h2{font-size:clamp(95px,14vw,165px)}
 }
@@ -340,27 +274,7 @@
   .site-frame-immersive>.site-header{
     background:linear-gradient(180deg,rgba(5,6,6,.88),rgba(5,6,6,.55),transparent);
   }
-  .intro-statement{
-    top:calc(100vw * 904 / 1600 + 72px);
-    left:7vw;right:6vw;bottom:auto;filter:none;
-  }
-  .intro-statement-kicker{
-    margin:0 0 24px;font-size:9px;line-height:1.7;letter-spacing:.14em;
-  }
-  .intro-statement-title{
-    font-size:clamp(47px,10.5vw,76px);
-    line-height:.95;max-width:520px;letter-spacing:-.035em;
-  }
-  .intro-statement-rule{margin-top:17px;height:2px}
-  .site-frame-immersive .scroll-film-stage::after{
-    background:linear-gradient(180deg,rgba(0,0,0,.4),transparent 25%,#0b0d0c 50%,#050606 100%);
-    opacity:.8;
-  }
-  .site-frame-immersive .scroll-film-hud{
-    top:calc(100vw * 904 / 1600 - 42px);background:none;
-  }
-  .site-frame-immersive .scroll-film-stage .hero-showcase-actions{bottom:27px}
-  .site-frame-immersive .scroll-film-prompt{bottom:0;right:7vw}
+
   .story-second-line{height:205svh}
   .story-second-shell{padding:27px 7vw 28px}
   .story-second-topline{font-size:8px;letter-spacing:.09em}
@@ -404,17 +318,12 @@
   .home-motion-ready .davies-scroll-story [data-kinetic].kinetic-in{transform:none}
 }
 @media(max-width:420px){
-  .intro-statement-title{font-size:clamp(44px,11vw,58px)}
-  .intro-statement{top:calc(100vw * 904 / 1600 + 66px)}
-  .intro-statement-kicker{letter-spacing:.1em}
   .story-second-heading{font-size:clamp(58px,12.6vw,72px)}
   .story-second-specs{gap:6px}
   .story-second-specs small{font-size:7px}
 }
 @media(prefers-reduced-motion:reduce){
-  .intro-statement .intro-word,
-  .intro-statement .intro-statement-kicker,
-  .intro-statement .intro-statement-rule,
+  
   .story-second-line *,
   .story-kinetic-rail div,
   .davies-scroll-story [data-kinetic]{
@@ -432,18 +341,6 @@
 
 /* Explicit longhand display typography avoids shorthand font parsing differences
    in Chromium/Safari when clamp() is paired with a variable display face. */
-.intro-statement-title{
-  font-family:var(--racing);
-  font-weight:400;
-  font-size:clamp(56px,8.1vw,154px);
-  line-height:.89;
-}
-.intro-statement-kicker{
-  font-family:var(--body);
-  font-weight:800;
-  font-size:clamp(9px,.85vw,12px);
-  line-height:1.3;
-}
 .story-second-echo{
   font-family:var(--racing);
   font-size:clamp(26px,3.5vw,58px);
@@ -512,7 +409,6 @@
   line-height:.84;
 }
 @media(max-width:1100px){
-  .intro-statement-title{font-size:clamp(49px,8vw,100px)}
   .story-second-heading{font-size:clamp(79px,11.5vw,135px)}
   .story-last-call h2{font-size:clamp(92px,13vw,165px)}
 }
@@ -521,7 +417,6 @@
   .story-second-specs strong{font-size:clamp(26px,4vw,43px)}
 }
 @media(max-width:700px){
-  .intro-statement-title{font-size:clamp(47px,10.5vw,76px);line-height:.94}
   .story-second-heading{font-size:clamp(43px,11.7vw,64px);line-height:.86;letter-spacing:-.06em}
   .story-second-echo{font-size:clamp(28px,7vw,43px)}
   .story-second-specs strong{font-size:clamp(19px,5.3vw,32px)}
@@ -534,7 +429,6 @@
   .story-last-call h2{font-size:clamp(75px,16vw,124px)}
 }
 @media(max-width:420px){
-  .intro-statement-title{font-size:clamp(42px,11vw,57px)}
   .story-second-heading{font-size:clamp(40px,11.5vw,50px)}
 }
 
@@ -712,30 +606,6 @@
 /* October 2026 brand headline — geometric, confidently weighted type
    supporting trust, certification and proven hands-on experience.
    Russo One is already loaded as --headline; no extra fonts to download. */
-.site-frame-immersive .intro-statement-title{
-  /* next/font variables are defined on body, so resolve the font directly
-     instead of inheriting the unresolved root-level --headline alias. */
-  font-family:var(--font-headline),Impact,"Arial Black",sans-serif;
-  font-weight:400;
-  font-size:clamp(44px,5.55vw,99px);
-  line-height:1.02;
-  letter-spacing:-.045em;
-  max-width:1400px;
-  text-wrap:balance;
-}
-.site-frame-immersive .intro-statement-title .intro-word{
-  font-family:inherit;
-  font-weight:inherit;
-  white-space:nowrap;
-}
-.site-frame-immersive .intro-statement-title .intro-word-final{
-  color:#ff995b;
-  text-shadow:0 5px 25px rgba(0,0,0,.66),0 0 18px rgba(229,112,49,.12);
-}
-.site-frame-immersive .intro-statement-rule{
-  max-width:960px;
-  margin-top:clamp(16px,2vw,25px);
-}
 .site-frame-immersive .story-second-echo{
   font-family:var(--font-headline),Impact,"Arial Black",sans-serif;
   font-weight:400;
@@ -744,24 +614,12 @@
   line-height:1.08;
 }
 @media(max-width:700px){
-  .site-frame-immersive .intro-statement-title{
-    font-size:clamp(38px,9vw,62px);
-    line-height:1.04;
-    letter-spacing:-.048em;
-    text-wrap:initial;
-  }
-  .site-frame-immersive .intro-statement-rule{
-    margin-top:16px;
-  }
   .site-frame-immersive .story-second-echo{
     font-size:clamp(19px,5vw,32px);
     line-height:1.1;
   }
 }
 @media(max-width:420px){
-  .site-frame-immersive .intro-statement-title{
-    font-size:clamp(36px,9vw,45px);
-  }
   .site-frame-immersive .story-second-echo{
     font-size:clamp(19px,5vw,25px);
   }
@@ -845,109 +703,3 @@
   .story-second-line .story-second-echo{opacity:.6!important}
 }
 
-/* Dedicated 9:16 mobile film, supplied by the owner. Desktop film, timing
-   and sprite-sheet fallback remain unchanged. */
-.scroll-film-stage .hero-showcase-phone-video{
-  display:none;
-}
-@media(max-width:760px),(pointer:coarse){
-  .scroll-film-stage .hero-showcase-phone-video{
-    position:absolute;
-    inset:0;
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center center;
-    background:#0b0d0b;
-    pointer-events:none;
-    z-index:0;
-  }
-  .scroll-film-stage .hero-showcase-frames{
-    display:none;
-  }
-  .scroll-film-track.mobile-film-fallback .hero-showcase-phone-video{
-    display:none;
-  }
-  .scroll-film-track.mobile-film-fallback .hero-showcase-frames{
-    display:block;
-  }
-}
-@media(max-width:700px){
-  .site-frame-immersive .scroll-film-stage .hero-showcase-phone-video{
-    height:100%;
-    width:100%;
-    object-fit:cover;
-  }
-  .site-frame-immersive .scroll-film-hud{
-    top:90px;
-    padding:10px 15px;
-    background:linear-gradient(90deg,rgba(0,0,0,.36),rgba(0,0,0,.13));
-  }
-  .site-frame-immersive .scroll-film-stage::after{
-    background:linear-gradient(180deg,rgba(0,0,0,.36),transparent 27%,rgba(0,0,0,.07) 44%,rgba(0,0,0,.66) 83%,rgba(0,0,0,.85));
-    opacity:1;
-  }
-  .site-frame-immersive .intro-statement{
-    top:auto;
-    bottom:23%;
-    left:7vw;
-    right:7vw;
-    filter:drop-shadow(0 5px 19px rgba(0,0,0,.8));
-  }
-  .site-frame-immersive .scroll-film-stage .hero-showcase-actions{
-    bottom:23px;
-  }
-  .site-frame-immersive .scroll-film-prompt{
-    display:none;
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  .scroll-film-stage .hero-showcase-phone-video{
-    display:none;
-  }
-}
-
-/* Reliable 9:16 owner-supplied mobile intro: high-quality still frames
-   are driven by scrolling. Desktop widescreen movie stays unchanged. */
-@media(max-width:760px),(pointer:coarse){
-  .scroll-film-track .scroll-film-stage .hero-showcase-video,
-  .scroll-film-track .scroll-film-stage .hero-showcase-phone-video{display:none}
-  .scroll-film-track .scroll-film-stage .hero-showcase-frames{
-    display:block;position:absolute;inset:0;width:100%;height:100%;
-    aspect-ratio:auto;object-fit:cover;object-position:center;
-    background-size:cover;background-position:center;
-  }
-}
-@media(max-width:700px){
-  .site-frame-immersive .scroll-film-stage .hero-showcase-frames{
-    width:100%;height:100%;aspect-ratio:auto;object-fit:cover;
-  }
-}
-@media(prefers-reduced-motion:reduce){
-  .scroll-film-track .scroll-film-stage .hero-showcase-frames{display:block}
-}
-
-/* Native-resolution approved Davies scroll film. Overrides old 480px mobile
-   sprite and 1600px desktop video renderers without changing the page design. */
-.scroll-film-track .scroll-film-stage .hero-showcase-video{
-  display:none !important;
-}
-.scroll-film-track .scroll-film-stage .hero-showcase-frames{
-  position:absolute !important;
-  inset:0 !important;
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  aspect-ratio:auto !important;
-  object-fit:cover !important;
-  object-position:center !important;
-  background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/255009a6-ca87-45bc-9879-d173d9a8212e.jpg");
-  background-size:cover;
-  background-position:center;
-}
-@media(max-width:760px),(pointer:coarse){
-  .scroll-film-track .scroll-film-stage .hero-showcase-frames{
-    background-image:url("https://d2ol7oe51mr4n9.cloudfront.net/user_3L8MGjMkW0k1NWSkETx0dFplZNu/f67dcda4-46b8-4e94-b7b5-03ef6231c0b6.jpg");
-  }
-}

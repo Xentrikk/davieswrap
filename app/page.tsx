@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { AccreditationMarks, ServiceBrandMark } from '@/components/accreditation-marks';
-import { AutomotiveHero } from '@/components/automotive-hero';
+import { HeroFilm } from '@/components/hero-film';
 import { HomeMotion } from '@/components/home-motion';
 import { BorderGlow } from '@/components/border-glow';
 import { PortfolioCarousel } from '@/components/portfolio-carousel';
@@ -12,36 +12,36 @@ export default function Home() {
     <Shell immersive>
       <HomeMotion />
       <main className="davies-scroll-story">
-        <AutomotiveHero />
-
-        <section className="story-second-line" data-story-track aria-labelledby="story-second-title">
-          <div className="story-second-stage">
-            <div className="story-second-grain" aria-hidden="true" />
-            <div className="story-second-shell">
-              <div className="story-second-topline">
-                <span>01 / THE PROMISE</span>
-                <span>DAVIES WRAP SPECIALIST — HAMPSHIRE</span>
-              </div>
-              <p className="story-second-echo" aria-hidden="true">NOT JUST WRAPPED.</p>
-              <h2 id="story-second-title" className="story-second-heading">
-                <span className="story-second-heading-first">ENGINEERED</span>
-                <span className="story-second-heading-final">TO LAST<span className="story-full-stop">.</span></span>
-              </h2>
-              <p className="story-second-subcopy">
-                Precision comes from what you don&apos;t see: meticulous preparation, material knowledge and the details that make the finish.
-              </p>
-              <div className="story-second-specs">
-                <div><strong>20<span>+</span></strong><small>YEARS ON THE TOOLS</small></div>
-                <div><strong>ARLON</strong><small>FLEET &amp; RESTYLING CERTIFIED</small></div>
-                <div><strong>STEK</strong><small>PPF APPROVED INSTALLER</small></div>
-              </div>
-              <div className="story-second-next">
-                <span>KEEP SCROLLING / THE WORK BEHIND THE FINISH</span>
-                <span aria-hidden="true">↓</span>
+        <HeroFilm>
+          <section className="story-second-line" data-story-track aria-labelledby="story-second-title">
+            <div className="story-second-stage">
+              <div className="story-second-grain" aria-hidden="true" />
+              <div className="story-second-shell">
+                <div className="story-second-topline">
+                  <span>01 / THE PROMISE</span>
+                  <span>DAVIES WRAP SPECIALIST — HAMPSHIRE</span>
+                </div>
+                <p className="story-second-echo" aria-hidden="true">NOT JUST WRAPPED.</p>
+                <h2 id="story-second-title" className="story-second-heading">
+                  <span className="story-second-heading-first">ENGINEERED</span>
+                  <span className="story-second-heading-final">TO LAST<span className="story-full-stop">.</span></span>
+                </h2>
+                <p className="story-second-subcopy">
+                  Precision comes from what you don&apos;t see: meticulous preparation, material knowledge and the details that make the finish.
+                </p>
+                <div className="story-second-specs">
+                  <div><strong>20<span>+</span></strong><small>YEARS ON THE TOOLS</small></div>
+                  <div><strong>ARLON</strong><small>FLEET &amp; RESTYLING CERTIFIED</small></div>
+                  <div><strong>STEK</strong><small>PPF APPROVED INSTALLER</small></div>
+                </div>
+                <div className="story-second-next">
+                  <span>KEEP SCROLLING / THE WORK BEHIND THE FINISH</span>
+                  <span aria-hidden="true">↓</span>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </HeroFilm>
 
         <div id="after-intro" className="kinetic-rail story-kinetic-rail" aria-hidden="true">
           <div><span>PROVEN INSTALLATION EXPERTISE</span><i>◆</i><span>ADVANCED FILM TECHNOLOGY</span><i>◆</i><span>FLEET</span><i>◆</i><span>RESTYLING</span><i>◆</i><span>PPF</span><i>◆</i><span>MARINE</span><i>◆</i><span>NO SHORTCUTS</span><i>◆</i></div>
